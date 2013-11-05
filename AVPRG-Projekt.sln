@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVPRG-Projekt", "AVPRG-Projekt\AVPRG-Projekt.vcxproj", "{4CEC63BB-208D-4EDB-87E7-1D01EFB1720B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CEC63BB-208D-4EDB-87E7-1D01EFB1720B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4CEC63BB-208D-4EDB-87E7-1D01EFB1720B}.Debug|Win32.Build.0 = Debug|Win32
+		{4CEC63BB-208D-4EDB-87E7-1D01EFB1720B}.Release|Win32.ActiveCfg = Release|Win32
+		{4CEC63BB-208D-4EDB-87E7-1D01EFB1720B}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
