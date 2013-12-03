@@ -1,0 +1,4 @@
+Hilfreiche Links für das Projekt:
+* http://stackoverflow.com/questions/18455694/opencv-my-own-2d-bar-code-reader
+* http://docs.opencv.org/doc/tutorials/imgproc/shapedescriptors/bounding_rotated_ellipses/bounding_rotated_ellipses.html
+* http://docs.opencv.org/modules/imgproc/doc/structural_analysis_and_shape_descriptors.html?highlight=findcontours#findcontours
