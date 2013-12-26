@@ -1,3 +1,3 @@
-+ Verwendete OpenCV Version ist 2.4.7.2
++ Verwendete OpenCV Version ist 2.4.6.0
 + Systemvariable Path um den Pfad "C:\opencv\build\x86\vc10\bin" ergänzt
 + Benutzerbariable OPENCV_DIR mit dem Pfad "C:\opencv\build\x86\vc10" hinzugefügt
