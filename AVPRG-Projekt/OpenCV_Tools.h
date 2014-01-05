@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OPENCVTOOLS_H_
+#define OPENCVTOOLS_H_
 #include "opencv2\opencv.hpp"
 class OpenCV_Tools
 {
@@ -16,4 +17,5 @@ public:
 	int getVideoWidth(cv::VideoCapture video);
 
 };
+#endif
 
