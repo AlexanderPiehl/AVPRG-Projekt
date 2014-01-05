@@ -17,6 +17,15 @@ Mat OpenCV_Tools::loadImage(string path)
 	return image;
 }
 
+Mat OpenCV_Tools::loadImageAsBW(string path)
+{
+	Mat image = imread(path);
+	Mat imageGrey;
+	cvtColor(image,imageGrey,CV_RGB2GRAY);
+	Mat imageBW = imageGrey > 10;
+	return imageBW;
+}
+
 VideoCapture OpenCV_Tools::loadVideo(string path)
 {
 	VideoCapture video;

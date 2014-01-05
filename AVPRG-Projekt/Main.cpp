@@ -1,9 +1,10 @@
 #include "CodeScanner.h"
+#include "UPCCodeScanner.h"
 using namespace std;
 
 int main()
 {
-	CodeScanner scanner;
+	UPCCodeScanner scanner;
 	scanner.readBarcode();
 
 	

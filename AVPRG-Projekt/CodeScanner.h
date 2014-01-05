@@ -3,15 +3,21 @@
 #include <opencv2\opencv.hpp>
 #include "OpenCV_Tools.h"
 
+
+
 class CodeScanner
-{
+{	
 private:
-	OpenCV_Tools cvTools;
+	
 protected:
+
 
 public:
 	CodeScanner(void);
 	~CodeScanner(void);
-	std::string readBarcode();
+	virtual std::string readBarcode();
+	virtual std::string decodingBarcode(cv::Mat image, int& start, int end, int y);
+	OpenCV_Tools cvTools;
+
 };
 #endif

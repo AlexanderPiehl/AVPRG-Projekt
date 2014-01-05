@@ -1,9 +1,9 @@
 #include "CodeScanner.h"
 using namespace cv;
+using namespace std;
 
 CodeScanner::CodeScanner()
 {
-	
 }
 
 CodeScanner::~CodeScanner()
@@ -11,13 +11,23 @@ CodeScanner::~CodeScanner()
 
 string CodeScanner::readBarcode()
 {
-	Mat imageRGB = cvTools.loadImage("C:\\Users\\Bla\\Documents\\GitHub\\AVPRG-Projekt\\Barcode1rot.jpg");
-	Mat imageGrey;
-	cvtColor(imageRGB,imageGrey,CV_RGB2GRAY);
-	Mat imageBW = imageGrey > 10;
-	imshow("Test", imageBW);
+	Mat image = cvTools.loadImageAsBW("C:\\Users\\Bla\\Documents\\GitHub\\AVPRG-Projekt\\Barcode1rot.jpg");
+	//Anfang in der Mitte
+	int startY = image.rows / 2;
 
-	
+	//Durchlauf von links nach rechts
+	for(int x = 0 ; x < image.cols; x++)
+	{
+		int pixel = image.at<uchar>(startY,x);
+		if(0 == pixel)
+		{
+			//decodingBarcode(image, x, image.cols, startY);
+		}
+	}
+
+	imshow("Test", image);
+
+
 	while(true){
 	
 
@@ -28,3 +38,5 @@ string CodeScanner::readBarcode()
 	}
 	return "";
 }
+string CodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
+{return "0";}
