@@ -21,12 +21,24 @@
     <ClInclude Include="OpenCV_Tools.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="CodeScanner.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="UPCCodeScanner.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenCV_Tools.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CodeScanner.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="UPCCodeScanner.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

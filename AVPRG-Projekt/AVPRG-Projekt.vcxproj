@@ -78,11 +78,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CodeScanner.h" />
     <ClInclude Include="OpenCV_Tools.h" />
+    <ClInclude Include="UPCCodeScanner.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CodeScanner.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="OpenCV_Tools.cpp" />
+    <ClCompile Include="UPCCodeScanner.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
