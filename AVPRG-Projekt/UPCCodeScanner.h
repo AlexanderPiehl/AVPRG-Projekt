@@ -2,7 +2,6 @@
 #define UPCCODESCANNER_H_
 #include "CodeScanner.h"
 
-#define BARCODE_LENGTH 12
 class UPCCodeScanner : public CodeScanner
 {
 private:
@@ -16,7 +15,7 @@ private:
 	bool convertBinToInt(int binaryCode[],bool isLeft);
 	bool calcCheckDigit();
 
-	int barCodeValue [BARCODE_LENGTH];
+	int barCodeValue [12];
 public:
 	UPCCodeScanner();
 	~UPCCodeScanner();

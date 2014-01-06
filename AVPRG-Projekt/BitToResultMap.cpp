@@ -4,8 +4,3 @@
 BitToResultMap::BitToResultMap(void)
 {
 }
-
-
-BitToResultMap::~BitToResultMap(void)
-{
-}
