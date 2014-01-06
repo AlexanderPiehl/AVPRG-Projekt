@@ -75,33 +75,33 @@ void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth
 
 
 
-string UPCCodeScanner::readBarcode()
-{
-	Mat image = cvTools.loadImageAsBW("C:\\Users\\Bla\\Documents\\GitHub\\AVPRG-Projekt\\Barcode2.jpg");
-	//Anfang in der Mitte
-	int startY = image.rows / 2;
-	cout << "Gesamtlaenge des Bildes" << image.cols << endl;
-	//Durchlauf von links nach rechts
-	for(int x = 0 ; x < image.cols; x++)
-	{
-		int pixel = image.at<uchar>(startY,x);
-		if(0 == pixel)
-		{
-			decodingBarcode(image, x, image.cols, startY);
-			break;
-		}
-	}
-
-	imshow("Test", image);
-
-
-	while(true){
-	
-
-		if(waitKey(10) != -1)
-		{
-			break; 
-		}
-	}
-	return "";
-}	
+//string UPCCodeScanner::readBarcode()
+//{
+//	Mat image = cvTools.loadImageAsBW("C:\\Users\\Bla\\Documents\\GitHub\\AVPRG-Projekt\\Barcode2.jpg");
+//	//Anfang in der Mitte
+//	int startY = image.rows / 2;
+//	cout << "Gesamtlaenge des Bildes" << image.cols << endl;
+//	//Durchlauf von links nach rechts
+//	for(int x = 0 ; x < image.cols; x++)
+//	{
+//		int pixel = image.at<uchar>(startY,x);
+//		if(0 == pixel)
+//		{
+//			decodingBarcode(image, x, image.cols, startY);
+//			break;
+//		}
+//	}
+//
+//	imshow("Test", image);
+//
+//
+//	while(true){
+//	
+//
+//		if(waitKey(10) != -1)
+//		{
+//			break; 
+//		}
+//	}
+//	return "";
+//}	

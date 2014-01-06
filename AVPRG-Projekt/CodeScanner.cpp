@@ -14,13 +14,14 @@ string CodeScanner::readBarcode()
 	Mat image = cvTools.loadImageAsBW("C:\\Users\\Bla\\Documents\\GitHub\\AVPRG-Projekt\\Barcode1rot.jpg");
 	//Anfang in der Mitte
 	int startY = image.rows / 2;
+	cout << "Gesamtlaenge des Bildes" << image.cols << endl;
 	//Durchlauf von links nach rechts
 	for(int x = 0 ; x < image.cols; x++)
 	{
 		int pixel = image.at<uchar>(startY,x);
 		if(0 == pixel)
 		{
-			//decodingBarcode(image, x, image.cols, startY);
+			decodingBarcode(image, x, image.cols, startY);
 		}
 	}
 
@@ -37,5 +38,3 @@ string CodeScanner::readBarcode()
 	}
 	return "";
 }
-string CodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
-{return "0";}
