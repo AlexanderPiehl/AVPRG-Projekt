@@ -10,5 +10,6 @@ public:
 	virtual std::string decodingBarcode(cv::Mat image, int& start, int end, int y);
 	int getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y);
 	void readLeftCode(cv::Mat image, int& start, int y, int barWidth);
+	void ignoreBadPixel(cv::Mat image, bool blackBar, int& start, int y);
 };
 #endif

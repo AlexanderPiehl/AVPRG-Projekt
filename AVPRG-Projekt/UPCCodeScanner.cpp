@@ -59,28 +59,22 @@ void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth
 		bitCounter = 1000000;
 		for (int l = 0; l < 7;l++)
 		{
+
 			pixel = image.at<uchar>(y,start);
-			if (0 == pixel)
+			if (0 == pixel && !blackBar || 255 == pixel && blackBar)
 			{
-				// Dies sollte ausgleichen, wenn mal ein Pixel fehlt.
-				if(!blackBar)
-				{
-					pixel = image.at<uchar>(y,start-1);
-					if (0 == pixel)
-						start-=1;
-				}
+				ignoreBadPixel(image, blackBar, start, y);
+			}
+
+
+			if (0 == pixel)
+			{			
 				blackBar = true;
 				binaryCode[i]+= bitCounter;
 			}
 			else 
 			{
-				// Dies sollte ausgleichen, wenn mal ein Pixel fehlt.
-				if(blackBar)
-				{
-					pixel = image.at<uchar>(y,start-1);
-					if (255 == pixel)
-						start-=1;
-				}
+				
 				blackBar = false;
 			}
 			cout << "Strich " << i+1 << " : " << binaryCode[i] << " Position X: " << start << endl;
@@ -88,6 +82,41 @@ void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth
 			bitCounter = bitCounter / 10;
 		}
 
+	}
+
+}
+
+// Dies sollte ausgleichen, wenn mal ein Pixel fehlt oder zu viel ist.
+void UPCCodeScanner::ignoreBadPixel(cv::Mat image, bool blackBar, int& start, int y)
+{
+	int pixel;
+	bool done = false;
+	if(!blackBar)
+	{
+		pixel = image.at<uchar>(y,start-1);
+		if (0 == pixel)
+		{
+			start-=1;
+			done = true;
+		}
+	}
+	if(!blackBar && !done)
+	{
+		pixel = image.at<uchar>(y,start+1);
+		if (255 == pixel)
+		{
+			start+=1;
+		}
+	}
+	
+
+	
+	
+	if(blackBar)
+	{
+		pixel = image.at<uchar>(y,start-1);
+		if (255 == pixel)
+			start-=1;
 	}
 
 }
