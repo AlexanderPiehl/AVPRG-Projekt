@@ -1,10 +1,17 @@
 #ifndef GUI_H_
 #define GUI_H_
-class GUI
+#include <afxwin.h>
+class GUI : public CWinApp
 {
 public:
-	GUI(void);
-	~GUI(void);
+	virtual BOOL InitInstance();
 };
+
+class CMainGUI : public CFrameWnd 
+{ 
+ public: 
+	CMainGUI(); 
+};
+
 #endif
 

@@ -41,6 +41,9 @@ local.properties
 *.user
 *.sln.docstates
 *.sdf
+*.sdf
+AVPRG-Projekt.sdf
+AVPRG-Projekt.suo
 
 # Build results
 

@@ -1,11 +1,15 @@
 #include "GUI.h"
 
+GUI gui;
 
-GUI::GUI(void)
+CMainGUI::CMainGUI()
 {
+	Create ( NULL, _T("MFC-Anwendungsskelett") );
 }
 
-
-GUI::~GUI(void)
-{
+BOOL GUI::InitInstance() 
+{ 
+ m_pMainWnd = new CMainGUI; 
+ m_pMainWnd ->ShowWindow( m_nCmdShow ); 
+ return TRUE; 
 }
