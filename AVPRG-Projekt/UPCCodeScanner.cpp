@@ -12,7 +12,7 @@ string UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 
 int UPCCodeScanner::getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y)
 {
-	int lGuard [3] = {0,255,0};
+	int lGuard [3] = {BAR,SPACE,BAR};
 	int widthBarFirst = 0;
 	int widthSpace = 0;
 	int widthBarLast = 0;
@@ -57,7 +57,7 @@ void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth
 		for (int l = 0; l < 7;l++)
 		{
 			pixel = image.at<uchar>(y,start);
-			if (0 == pixel)
+			if (BAR == pixel)
 				binaryCode[i]+= bitCounter;
 			else
 				binaryCode[i]+= 0;

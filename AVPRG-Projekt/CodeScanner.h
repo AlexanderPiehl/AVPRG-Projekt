@@ -3,7 +3,8 @@
 #include <opencv2\opencv.hpp>
 #include "OpenCV_Tools.h"
 
-
+#define BAR     0
+#define SPACE 255
 
 class CodeScanner
 {	
