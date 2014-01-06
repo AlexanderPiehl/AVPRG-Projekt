@@ -217,3 +217,7 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+AVPRG-Projekt.sdf
+AVPRG-Projekt.sdf
+*.sdf
+AVPRG-Projekt.suo

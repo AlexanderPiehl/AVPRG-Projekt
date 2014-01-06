@@ -10,6 +10,6 @@ int main()
 	UPCCodeScanner scanner;
 	scanner.readBarcode();
 
-	
+	cout << "test" << endl;
 	return 0;
 }
