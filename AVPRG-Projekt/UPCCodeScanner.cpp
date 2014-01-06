@@ -5,6 +5,7 @@ using namespace cv;
 string UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 {
 	int bit_width = getBitWidthAndSkipLGuard(image, start, y);
+	readLeftCode(image, start, y, bit_width);
 	cout << "Bit Weite: " << bit_width << " ; X: " << start <<endl;
 	return "";
 }
@@ -16,6 +17,7 @@ int UPCCodeScanner::getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y)
 	int widthSpace = 0;
 	int widthBarLast = 0;
 	int pixel = image.at<uchar>(y,start);
+	cout << "Test wo x gerade ist: " << start << endl;
 	for(int i = 0; i < 3; i++)
 	{
 		while(lGuard[i] == pixel)
@@ -31,6 +33,7 @@ int UPCCodeScanner::getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y)
 				widthBarLast++;
 		}
 	}
+	cout << "Test wo x gerade ist: " << start << endl;
 	//Kontrolle ob die Weiten gleich sind
 	if(widthBarFirst == widthBarLast && widthBarFirst == widthSpace)
 		return widthBarFirst;
@@ -41,12 +44,43 @@ int UPCCodeScanner::getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y)
 	}
 }
 
+
+void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth)
+{
+	int binaryCode [6] = {0,0,0,0,0,0};
+	int pixel;
+	int bitCounter;
+	for (int i = 0; i < 6;i++)
+	{
+		// if (0 < i) start-=1;
+		bitCounter = 1000000;
+		for (int l = 0; l < 7;l++)
+		{
+			pixel = image.at<uchar>(y,start);
+			if (0 == pixel)
+				binaryCode[i]+= bitCounter;
+			else
+				binaryCode[i]+= 0;
+			cout << "Strich " << i+1 << " : " << binaryCode[i] << " Position X: " << start << endl;
+			start+= barWidth;
+			bitCounter = bitCounter / 10;
+		}
+
+	}
+
+}
+
+
+
+
+
+
 string UPCCodeScanner::readBarcode()
 {
-	Mat image = cvTools.loadImageAsBW("C:\\Users\\Bla\\Documents\\GitHub\\AVPRG-Projekt\\Barcode1rot.jpg");
+	Mat image = cvTools.loadImageAsBW("C:\\Users\\Bla\\Documents\\GitHub\\AVPRG-Projekt\\Barcode2.jpg");
 	//Anfang in der Mitte
 	int startY = image.rows / 2;
-
+	cout << "Gesamtlaenge des Bildes" << image.cols << endl;
 	//Durchlauf von links nach rechts
 	for(int x = 0 ; x < image.cols; x++)
 	{

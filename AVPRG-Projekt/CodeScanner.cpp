@@ -14,7 +14,6 @@ string CodeScanner::readBarcode()
 	Mat image = cvTools.loadImageAsBW("C:\\Users\\Bla\\Documents\\GitHub\\AVPRG-Projekt\\Barcode1rot.jpg");
 	//Anfang in der Mitte
 	int startY = image.rows / 2;
-
 	//Durchlauf von links nach rechts
 	for(int x = 0 ; x < image.cols; x++)
 	{
