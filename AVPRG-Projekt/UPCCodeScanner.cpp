@@ -47,20 +47,42 @@ int UPCCodeScanner::getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y)
 
 void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth)
 {
+	bool blackBar = false;
+	// Speicher für die einzelnen 7 Bits
 	int binaryCode [6] = {0,0,0,0,0,0};
 	int pixel;
+	// die variable setzt die Bits von der 7. bis 1. Stelle
 	int bitCounter;
 	for (int i = 0; i < 6;i++)
 	{
-		// if (0 < i) start-=1;
+		// if (2 < i) start-=1;
 		bitCounter = 1000000;
 		for (int l = 0; l < 7;l++)
 		{
 			pixel = image.at<uchar>(y,start);
-			if (BAR == pixel)
+			if (0 == pixel)
+			{
+				// Dies sollte ausgleichen, wenn mal ein Pixel fehlt.
+				if(!blackBar)
+				{
+					pixel = image.at<uchar>(y,start-1);
+					if (0 == pixel)
+						start-=1;
+				}
+				blackBar = true;
 				binaryCode[i]+= bitCounter;
-			else
-				binaryCode[i]+= 0;
+			}
+			else 
+			{
+				// Dies sollte ausgleichen, wenn mal ein Pixel fehlt.
+				if(blackBar)
+				{
+					pixel = image.at<uchar>(y,start-1);
+					if (255 == pixel)
+						start-=1;
+				}
+				blackBar = false;
+			}
 			cout << "Strich " << i+1 << " : " << binaryCode[i] << " Position X: " << start << endl;
 			start+= barWidth;
 			bitCounter = bitCounter / 10;
@@ -69,6 +91,7 @@ void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth
 	}
 
 }
+
 
 
 

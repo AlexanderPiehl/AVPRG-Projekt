@@ -22,6 +22,7 @@ string CodeScanner::readBarcode()
 		if(0 == pixel)
 		{
 			decodingBarcode(image, x, image.cols, startY);
+			break;
 		}
 	}
 
