@@ -5,6 +5,14 @@ GUI gui;
 CMainGUI::CMainGUI()
 {
 	Create ( NULL, _T("MFC-Anwendungsskelett") );
+	
+}
+
+void CMainGUI::OnLButtonDown(UINT nFlags, CPoint point) 
+{
+	static LPCTSTR msg = TEXT("MyApp");
+   CFrameWnd::OnLButtonDown(nFlags, point);
+   MessageBox(msg);
 }
 
 BOOL GUI::InitInstance() 
