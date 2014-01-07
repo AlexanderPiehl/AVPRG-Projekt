@@ -22,7 +22,7 @@ Mat OpenCV_Tools::loadImageAsBW(string path)
 	Mat image = imread(path);
 	Mat imageGrey;
 	cvtColor(image,imageGrey,CV_RGB2GRAY);
-	Mat imageBW = imageGrey > 10;
+	Mat imageBW = imageGrey > 20;
 	return imageBW;
 }
 
