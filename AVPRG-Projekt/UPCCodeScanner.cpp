@@ -4,15 +4,23 @@ using namespace cv;
 
 string UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 {
-	int bit_width = getBitWidthAndSkipLGuard(image, start, y);
-	readCode(image, start, y, bit_width, true);
-	skipMGuard(image, start, y);
-	readCode(image, start, y, bit_width, false);
-	cout << "Bit Weite: " << bit_width << " ; X: " << start <<endl;
-	return "";
+	int bit_width = getBitWidthAndSkipGuard(image, start, y);
+	if(0 < bit_width)
+	{
+		readCode(image, start, y, bit_width, true);
+		skipMGuard(image, start, y);
+		readCode(image, start, y, bit_width, false);
+		cout << "Bit Weite: " << bit_width << " ; X: " << start <<endl;
+		return "";
+	}
+	else
+	{
+		return "";
+	}
+	
 }
 
-int UPCCodeScanner::getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y)
+int UPCCodeScanner::getBitWidthAndSkipGuard(Mat image, int& start, int y)
 {
 	int lGuard [3] = {BAR,SPACE,BAR};
 	int widthBarFirst = 0;
@@ -36,18 +44,19 @@ int UPCCodeScanner::getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y)
 		}
 	}
 	cout << "Test wo x gerade ist: " << start << endl;
-	//Kontrolle ob die Weiten gleich sind
-	if(widthBarFirst == widthBarLast && widthBarFirst == widthSpace)
+	//Kontrolle ob 2 Weiten gleich sind, wenn nicht -1 als Fehler
+	if(widthBarFirst == widthBarLast)
 		return widthBarFirst;
+	else if(widthBarFirst == widthSpace)
+		return widthBarFirst;
+	else if(widthSpace == widthBarLast)
+		return widthSpace;
 	else
-	{
-		//Fehlermeldung
-		return 0;
-	}
+		return -1;
 }
 
 
-void UPCCodeScanner::readCode(cv::Mat image, int& start, int y, int barWidth, bool isLeft)
+void UPCCodeScanner::readCode(Mat image, int& start, int y, int barWidth, bool isLeft)
 {
 	bool blackBar = false;
 	// Speicher für die einzelnen 7 Bits
@@ -100,7 +109,7 @@ void UPCCodeScanner::readCode(cv::Mat image, int& start, int y, int barWidth, bo
 	}
 }
 
-void UPCCodeScanner::checkNextPixel(cv::Mat image, int& start, int y)
+void UPCCodeScanner::checkNextPixel(Mat image, int& start, int y)
 {
 	int pixel = image.at<uchar>(y,start);
 	int rightPixel = image.at<uchar>(y,start+1);
@@ -110,7 +119,7 @@ void UPCCodeScanner::checkNextPixel(cv::Mat image, int& start, int y)
 }
 
 // Dies sollte ausgleichen, wenn mal ein Pixel fehlt oder zu viel ist.
-void UPCCodeScanner::ignoreBadPixel(cv::Mat image, bool blackBar, int& start, int y)
+void UPCCodeScanner::ignoreBadPixel(Mat image, bool blackBar, int& start, int y)
 {
 	int pixel;
 	bool done = false;
@@ -139,7 +148,7 @@ void UPCCodeScanner::ignoreBadPixel(cv::Mat image, bool blackBar, int& start, in
 	}
 }
 
-void UPCCodeScanner::skipMGuard(cv::Mat image, int& start, int y)
+void UPCCodeScanner::skipMGuard(Mat image, int& start, int y)
 {
 	int mGuard[5] = {SPACE,BAR,SPACE,BAR,SPACE};
 	int pixel = image.at<uchar>(y,start);
@@ -152,4 +161,10 @@ void UPCCodeScanner::skipMGuard(cv::Mat image, int& start, int y)
 			pixel = image.at<uchar>(y,start);
 		}
 	}
+}
+
+void UPCCodeScanner::checkBitWidth(Mat image, int& start, int y, int bitWidth)
+{
+
+
 }
