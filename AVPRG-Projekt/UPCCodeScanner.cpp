@@ -5,8 +5,9 @@ using namespace cv;
 string UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 {
 	int bit_width = getBitWidthAndSkipLGuard(image, start, y);
-	readLeftCode(image, start, y, bit_width);
+	readCode(image, start, y, bit_width, true);
 	skipMGuard(image, start, y);
+	readCode(image, start, y, bit_width, false);
 	cout << "Bit Weite: " << bit_width << " ; X: " << start <<endl;
 	return "";
 }
@@ -46,7 +47,7 @@ int UPCCodeScanner::getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y)
 }
 
 
-void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth)
+void UPCCodeScanner::readCode(cv::Mat image, int& start, int y, int barWidth, bool isLeft)
 {
 	bool blackBar = false;
 	// Speicher für die einzelnen 7 Bits
@@ -65,17 +66,32 @@ void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth
 			{
 				ignoreBadPixel(image, blackBar, start, y);
 			}
-
-			if (BAR == pixel)
-			{			
-				blackBar = true;
-				binaryCode[i]+= bitCounter;
-			}
-			else 
+			if(isLeft)
 			{
+				if (BAR == pixel)
+				{			
+					blackBar = true;
+					binaryCode[i]+= bitCounter;
+				}
+				else 
+				{
 				
-				blackBar = false;
+					blackBar = false;
+				}
 			}
+			else
+			{
+				if (BAR == pixel)
+				{			
+					blackBar = true;
+				}
+				else 
+				{
+					blackBar = false;
+					binaryCode[i]+= bitCounter;		
+				}
+			}
+			
 			cout << "Strich " << i+1 << " : " << binaryCode[i] << " Position X: " << start << endl;
 			start+= barWidth;
 			bitCounter = bitCounter / 10;
