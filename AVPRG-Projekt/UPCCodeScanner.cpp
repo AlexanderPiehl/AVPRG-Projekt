@@ -61,11 +61,13 @@ void UPCCodeScanner::readCode(cv::Mat image, int& start, int y, int barWidth, bo
 		bitCounter = 1000000;
 		for (int l = 0; l < 7;l++)
 		{
+			checkNextPixel(image, start,y);
 			pixel = image.at<uchar>(y,start);
 			if (BAR == pixel && !blackBar || SPACE == pixel && blackBar)
 			{
 				ignoreBadPixel(image, blackBar, start, y);
 			}
+
 			if(isLeft)
 			{
 				if (BAR == pixel)
@@ -75,7 +77,6 @@ void UPCCodeScanner::readCode(cv::Mat image, int& start, int y, int barWidth, bo
 				}
 				else 
 				{
-				
 					blackBar = false;
 				}
 			}
@@ -97,6 +98,15 @@ void UPCCodeScanner::readCode(cv::Mat image, int& start, int y, int barWidth, bo
 			bitCounter = bitCounter / 10;
 		}
 	}
+}
+
+void UPCCodeScanner::checkNextPixel(cv::Mat image, int& start, int y)
+{
+	int pixel = image.at<uchar>(y,start);
+	int rightPixel = image.at<uchar>(y,start+1);
+
+	if (pixel != rightPixel)
+		start+=1;
 }
 
 // Dies sollte ausgleichen, wenn mal ein Pixel fehlt oder zu viel ist.

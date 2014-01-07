@@ -12,5 +12,6 @@ public:
 	void readCode(cv::Mat image, int& start, int y, int barWidth, bool isLeft);
 	void ignoreBadPixel(cv::Mat image, bool blackBar, int& start, int y);
 	void skipMGuard(cv::Mat image, int& start, int y);
+	void checkNextPixel(cv::Mat image, int& start, int y);
 };
 #endif

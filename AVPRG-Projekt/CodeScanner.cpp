@@ -11,7 +11,7 @@ CodeScanner::~CodeScanner()
 
 string CodeScanner::readBarcode()
 {
-	Mat image = cvTools.loadImageAsBW("../Barcode1rot.jpg");
+	Mat image = cvTools.loadImageAsBW("../Barcode2.jpg");
 	//Anfang in der Mitte
 	int startY = image.rows / 2;
 	cout << "Gesamtlaenge des Bildes" << image.cols << endl;
