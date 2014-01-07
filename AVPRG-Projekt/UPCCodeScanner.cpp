@@ -6,6 +6,7 @@ string UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 {
 	int bit_width = getBitWidthAndSkipLGuard(image, start, y);
 	readLeftCode(image, start, y, bit_width);
+	skipMGuard(image, start, y);
 	cout << "Bit Weite: " << bit_width << " ; X: " << start <<endl;
 	return "";
 }
@@ -59,15 +60,13 @@ void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth
 		bitCounter = 1000000;
 		for (int l = 0; l < 7;l++)
 		{
-
 			pixel = image.at<uchar>(y,start);
-			if (0 == pixel && !blackBar || 255 == pixel && blackBar)
+			if (BAR == pixel && !blackBar || SPACE == pixel && blackBar)
 			{
 				ignoreBadPixel(image, blackBar, start, y);
 			}
 
-
-			if (0 == pixel)
+			if (BAR == pixel)
 			{			
 				blackBar = true;
 				binaryCode[i]+= bitCounter;
@@ -81,9 +80,7 @@ void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth
 			start+= barWidth;
 			bitCounter = bitCounter / 10;
 		}
-
 	}
-
 }
 
 // Dies sollte ausgleichen, wenn mal ein Pixel fehlt oder zu viel ist.
@@ -108,52 +105,25 @@ void UPCCodeScanner::ignoreBadPixel(cv::Mat image, bool blackBar, int& start, in
 			start+=1;
 		}
 	}
-	
-
-	
-	
 	if(blackBar)
 	{
 		pixel = image.at<uchar>(y,start-1);
 		if (255 == pixel)
 			start-=1;
 	}
-
 }
 
-
-
-
-
-
-
-//string UPCCodeScanner::readBarcode()
-//{
-//	Mat image = cvTools.loadImageAsBW("C:\\Users\\Bla\\Documents\\GitHub\\AVPRG-Projekt\\Barcode2.jpg");
-//	//Anfang in der Mitte
-//	int startY = image.rows / 2;
-//	cout << "Gesamtlaenge des Bildes" << image.cols << endl;
-//	//Durchlauf von links nach rechts
-//	for(int x = 0 ; x < image.cols; x++)
-//	{
-//		int pixel = image.at<uchar>(startY,x);
-//		if(0 == pixel)
-//		{
-//			decodingBarcode(image, x, image.cols, startY);
-//			break;
-//		}
-//	}
-//
-//	imshow("Test", image);
-//
-//
-//	while(true){
-//	
-//
-//		if(waitKey(10) != -1)
-//		{
-//			break; 
-//		}
-//	}
-//	return "";
-//}	
+void UPCCodeScanner::skipMGuard(cv::Mat image, int& start, int y)
+{
+	int mGuard[5] = {SPACE,BAR,SPACE,BAR,SPACE};
+	int pixel = image.at<uchar>(y,start);
+	cout << "Test wo x gerade ist: " << start << endl;
+	for(int i = 0; i < 5; i++)
+	{
+		while(mGuard[i] == pixel)
+		{
+			start++;
+			pixel = image.at<uchar>(y,start);
+		}
+	}
+}
