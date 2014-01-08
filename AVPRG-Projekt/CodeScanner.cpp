@@ -12,18 +12,26 @@ CodeScanner::~CodeScanner()
 string CodeScanner::readBarcode()
 {
 	Mat image = cvTools.loadImageAsBW("../BarcodeRotaDemo.jpg");
+	int  outcome = 0;
 	//Anfang in der Mitte
 	int startY = image.rows / 2;
 	cout << "Gesamtlaenge des Bildes" << image.cols << endl;
 	//Durchlauf von links nach rechts
-	for(int x = 0 ; x < image.cols; x++)
+	for (int y = 0; y < image.rows; y=y+2)
 	{
-		int pixel = image.at<uchar>(startY,x);
-		if(0 == pixel)
+		cout << "y ist: " << y << endl;
+		for(int x = 0 ; x < image.cols-100; x++)
 		{
-			decodingBarcode(image, x, image.cols, startY);
-			break;
+			int pixel = image.at<uchar>(y,x);
+			if(0 == pixel)
+			{
+				outcome = decodingBarcode(image, x, image.cols, y);
+				if(1 == outcome)
+					break;
+			}
 		}
+		if(1 == outcome)
+			break;
 	}
 
 	imshow("Test", image);

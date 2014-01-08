@@ -11,8 +11,9 @@ private:
 	void skipMGuard(cv::Mat image, int& start, int y);
 	void checkNextPixel(cv::Mat image, int& start, int y);
 	void checkBitWidth(cv::Mat image, int&start, int y, int bitWidth);
+	int skipTooThickBars(cv::Mat image, int barThickness);
 public:
-	virtual std::string decodingBarcode(cv::Mat image, int& start, int end, int y);
+	virtual int decodingBarcode(cv::Mat image, int& start, int end, int y);
 	
 };
 #endif

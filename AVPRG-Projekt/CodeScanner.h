@@ -17,7 +17,7 @@ public:
 	CodeScanner(void);
 	virtual~CodeScanner(void);
 	virtual std::string readBarcode();
-	virtual std::string decodingBarcode(cv::Mat image, int& start, int end, int y) = 0;
+	virtual int decodingBarcode(cv::Mat image, int& start, int end, int y) = 0;
 	OpenCV_Tools cvTools;
 
 };
