@@ -6,9 +6,9 @@ class UPCCodeScanner : public CodeScanner
 {
 private:
 	int getBitWidthAndSkipGuard(cv::Mat image, int& start, int y);
-	void readCode(cv::Mat image, int& start, int y, int barWidth, bool isLeft);
+	bool readCode(cv::Mat image, int& start, int y, int barWidth, bool isLeft);
 	void ignoreBadPixel(cv::Mat image, bool blackBar, int& start, int y);
-	void skipMGuard(cv::Mat image, int& start, int y);
+	bool skipMGuard(cv::Mat image, int& start, int y);
 	void checkNextPixel(cv::Mat image, int& start, int y);
 	void checkBitWidth(cv::Mat image, int&start, int y, int bitWidth);
 	int skipTooThickBars(cv::Mat image, int barThickness);

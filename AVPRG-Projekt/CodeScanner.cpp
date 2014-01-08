@@ -17,7 +17,7 @@ string CodeScanner::readBarcode()
 	int startY = image.rows / 2;
 	cout << "Gesamtlaenge des Bildes" << image.cols << endl;
 	//Durchlauf von links nach rechts
-	for (int y = 0; y < image.rows; y=y+2)
+	for (int y = 0; y < image.rows; y=y+4)
 	{
 		cout << "y ist: " << y << endl;
 		for(int x = 0 ; x < image.cols-100; x++)

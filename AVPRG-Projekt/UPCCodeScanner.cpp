@@ -7,19 +7,31 @@ int UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 	int bit_width = getBitWidthAndSkipGuard(image, start, y);
 	if(0 < bit_width)
 	{
-		readCode(image, start, y, bit_width, true);
-		skipMGuard(image, start, y);
+		bool noFailure = true;
+		noFailure = readCode(image, start, y, bit_width, true);
+		if(noFailure)
+		{
+		noFailure = skipMGuard(image, start, y);
+		}
+		if (noFailure)
+		{
 		readCode(image, start, y, bit_width, false);
+		}
 		// cout << "Bit Weite: " << bit_width << " ; X: " << start <<endl;
 		// Überprüfung der Prüfziffer hier noch einfügen für den richtigen return
 
+		if (noFailure)
+		{
 		// Der Barcode wurde richtig erkannt
 		return 1;
+		}else
+			// Fehler beim durchlaufen des Codes, Rand gefunden
+			return -1;
 	}
 	else
 	{
 		// Fehler, keine Guard gefunden
-		cout << "keine Guard gefunden an der stelle x: " << start << " und y: " << y <<endl;
+		// cout << "keine Guard gefunden an der stelle x: " << start << " und y: " << y <<endl;
 		return -1;
 	}
 	
@@ -38,7 +50,7 @@ int UPCCodeScanner::getBitWidthAndSkipGuard(Mat image, int& start, int y)
 		while(lGuard[i] == pixel)
 		{
 			// abfangen, dass er nicht über den Rand des Bildes prüft
-			if(start < image.cols-1)
+			if(start < image.cols-100)
 				{
 				start++;
 				pixel = image.at<uchar>(y,start);
@@ -86,7 +98,7 @@ int UPCCodeScanner::skipTooThickBars(cv::Mat image, int barThickness)
 }
 
 // Diese Methode ließt den eigentlichen Code zwicshen den Guards aus und speichert ihm in einem Array
-void UPCCodeScanner::readCode(Mat image, int& start, int y, int barWidth, bool isLeft)
+bool UPCCodeScanner::readCode(Mat image, int& start, int y, int barWidth, bool isLeft)
 {
 	bool blackBar = false;
 	// Speicher für die einzelnen 7 Bits
@@ -144,10 +156,14 @@ void UPCCodeScanner::readCode(Mat image, int& start, int y, int barWidth, bool i
 			}
 			
 			// cout << "Strich " << i+1 << " : " << binaryCode[i] << " Position X: " << start << endl;
-			// Sprung um eine Standardlänge weiter
-			start+= barWidth;
-			// der bit Counter wird durch 10 geteilt um beim nächsten Durchgang das Bit einen weiter rechts zu setzten
-			bitCounter = bitCounter / 10;
+			if(start<image.cols-10)
+			{
+				// Sprung um eine Standardlänge weiter
+				start+= barWidth;
+				// der bit Counter wird durch 10 geteilt um beim nächsten Durchgang das Bit einen weiter rechts zu setzten
+				bitCounter = bitCounter / 10;
+			}else
+				return false;
 		}
 	}
 	cout << "y ist: " << y << endl;
@@ -158,6 +174,7 @@ void UPCCodeScanner::readCode(Mat image, int& start, int y, int barWidth, bool i
 			cout << "Strich " << i << ": "<< binaryCode[i] << endl;
 		}
 	}
+	return true;
 }
 
 
@@ -203,7 +220,7 @@ void UPCCodeScanner::ignoreBadPixel(Mat image, bool blackBar, int& start, int y)
 }
 
 // wenn man bei der mittleren Guard angekommen ist, sorgt diese Methode dafür, dass sie übersprungen wird
-void UPCCodeScanner::skipMGuard(Mat image, int& start, int y)
+bool UPCCodeScanner::skipMGuard(Mat image, int& start, int y)
 {
 	int mGuard[5] = {SPACE,BAR,SPACE,BAR,SPACE};
 	int pixel = image.at<uchar>(y,start);
@@ -212,10 +229,16 @@ void UPCCodeScanner::skipMGuard(Mat image, int& start, int y)
 	{
 		while(mGuard[i] == pixel)
 		{
-			start++;
-			pixel = image.at<uchar>(y,start);
+			// Fehler, dass über den Bildrand hinweg gesucht wird, wird abgefangen
+			if(start < image.cols-50)
+			{
+				start++;
+				pixel = image.at<uchar>(y,start);
+			}else
+				return false;
 		}
 	}
+	return true;
 }
 
 void UPCCodeScanner::checkBitWidth(Mat image, int& start, int y, int bitWidth)
