@@ -5,11 +5,14 @@
 class UPCCodeScanner : public CodeScanner
 {
 private:
-
+	int getBitWidthAndSkipGuard(cv::Mat image, int& start, int y);
+	void readCode(cv::Mat image, int& start, int y, int barWidth, bool isLeft);
+	void ignoreBadPixel(cv::Mat image, bool blackBar, int& start, int y);
+	void skipMGuard(cv::Mat image, int& start, int y);
+	void checkNextPixel(cv::Mat image, int& start, int y);
+	void checkBitWidth(cv::Mat image, int&start, int y, int bitWidth);
 public:
 	virtual std::string decodingBarcode(cv::Mat image, int& start, int end, int y);
-	int getBitWidthAndSkipLGuard(cv::Mat image, int& start, int y);
-	void readLeftCode(cv::Mat image, int& start, int y, int barWidth);
-	void ignoreBadPixel(cv::Mat image, bool blackBar, int& start, int y);
+	
 };
 #endif
