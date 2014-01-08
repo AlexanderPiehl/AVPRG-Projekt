@@ -65,7 +65,7 @@ void UPCCodeScanner::readLeftCode(cv::Mat image, int& start, int y, int barWidth
 			{
 				ignoreBadPixel(image, blackBar, start, y);
 			}
-
+			pixel = image.at<uchar>(y,start);
 
 			if (0 == pixel)
 			{			
