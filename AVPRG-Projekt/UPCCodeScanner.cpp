@@ -49,6 +49,8 @@ int UPCCodeScanner::getBitWidthAndSkipGuard(Mat image, int& start, int y)
 	{
 		while(lGuard[i] == pixel)
 		{
+			//if (y == 44)
+				// cout << "Guard an der Stelle x: " << start << " y: " << y << endl;
 			// abfangen, dass er nicht über den Rand des Bildes prüft
 			if(start < image.cols-100)
 				{
@@ -76,12 +78,15 @@ int UPCCodeScanner::getBitWidthAndSkipGuard(Mat image, int& start, int y)
 	}
 	// cout << "Test wo x gerade ist: " << start << endl;
 	//Kontrolle ob 2 Weiten gleich sind, wenn nicht -1 als Fehler
-	if(widthBarFirst == widthBarLast)
-		return widthBarFirst;
-	else if(widthBarFirst == widthSpace)
-		return widthBarFirst;
-	else if(widthSpace == widthBarLast)
-		return widthSpace;
+	if(widthBarFirst == widthBarLast){
+		cout << "Guard 1. Bar: " << widthBarFirst << " letze Bar " << widthBarLast << endl;
+		return widthBarFirst;}
+	else if(widthBarFirst == widthSpace){
+		cout << "Guard 1. Bar: " << widthBarFirst << " mittlere Bar " << widthSpace << endl;
+	return widthBarFirst;}
+	else if(widthSpace == widthBarLast){
+		cout << "Guard mittlere Bar: " << widthSpace << " letzte Bar " << widthBarLast << endl;
+		return widthSpace;}
 	else
 		// Entweder keine Guard getroffen oder Guard ist zu beschädigt um sie zu lesen
 		return -1;
@@ -108,6 +113,7 @@ bool UPCCodeScanner::readCode(Mat image, int& start, int y, int barWidth, bool i
 	int bitCounter;
 	for (int i = 0; i < 6;i++)
 	{
+		cout << "An der Stelle x: " << start << endl;
 		// Die Bits werden vor jedem Durchgang wieder auf das 7. gesetzt
 		bitCounter = 1000000;
 		for (int l = 0; l < 7;l++)
