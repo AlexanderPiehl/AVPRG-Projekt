@@ -20,5 +20,6 @@ public:
 	virtual int decodingBarcode(cv::Mat image, int& start, int end, int y) = 0;
 	OpenCV_Tools cvTools;
 
+	std::map<int,int> binToIntMap;
 };
 #endif
