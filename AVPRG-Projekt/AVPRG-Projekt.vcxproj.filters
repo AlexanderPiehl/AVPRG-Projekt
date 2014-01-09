@@ -30,6 +30,9 @@
     <ClInclude Include="GUI.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="CodeNeunUndDreizig.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenCV_Tools.cpp">
@@ -45,6 +48,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="GUI.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CodeNeunUndDreizig.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

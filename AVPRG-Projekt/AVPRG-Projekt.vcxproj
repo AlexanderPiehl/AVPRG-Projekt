@@ -80,12 +80,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CodeNeunUndDreizig.h" />
     <ClInclude Include="CodeScanner.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="OpenCV_Tools.h" />
     <ClInclude Include="UPCCodeScanner.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CodeNeunUndDreizig.cpp" />
     <ClCompile Include="CodeScanner.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Main.cpp" />
