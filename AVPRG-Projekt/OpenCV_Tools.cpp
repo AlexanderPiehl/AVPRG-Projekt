@@ -1,6 +1,7 @@
 #include "OpenCV_Tools.h"
 using namespace cv;
 using namespace std;
+using namespace System;
 
 OpenCV_Tools::OpenCV_Tools(void)
 {
@@ -51,4 +52,3 @@ int OpenCV_Tools::getVideoWidth(VideoCapture video)
 	int width = video.get(CV_CAP_PROP_FRAME_WIDTH);
 	return width;
 }
-

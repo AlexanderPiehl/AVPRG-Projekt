@@ -3,15 +3,14 @@ using namespace cv;
 using namespace std;
 
 CodeScanner::CodeScanner()
-{
-}
+{}
 
 CodeScanner::~CodeScanner()
 {}
 
 string CodeScanner::readBarcode()
 {
-	Mat image = cvTools.loadImageAsBW("../BarcodeRotaDemo.jpg");
+	Mat image = cvTools.loadImageAsBW(path);
 	// Ergebnis Fehler oder Ein richtiges Ergebnis
 	int  outcome = 0;
 	// Hiermit wird nur eine Guard gesucht, wenn auch eine Quiet zone gefunden wurde
