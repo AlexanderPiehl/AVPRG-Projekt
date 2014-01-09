@@ -7,8 +7,8 @@ int main()
 {
 	//GUI gui;
 	//gui.InitInstance();
-	// UPCCodeScanner scanner;
-	CodeNeunUndDreizig scanner;
+	UPCCodeScanner scanner;
+	//CodeNeunUndDreizig scanner;
 	scanner.readBarcode();
 
 	cout << "test" << endl;

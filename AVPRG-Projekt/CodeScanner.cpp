@@ -11,7 +11,7 @@ CodeScanner::~CodeScanner()
 
 string CodeScanner::readBarcode()
 {
-	Mat image = cvTools.loadImageAsBW("../Code39.jpg");
+	Mat image = cvTools.loadImageAsBW("../Barcode1rot.jpg");
 	// Ergebnis Fehler oder Ein richtiges Ergebnis
 	int  outcome = 0;
 	// Hiermit wird nur eine Guard gesucht, wenn auch eine Quiet zone gefunden wurde
