@@ -12,7 +12,14 @@ private:
 	void checkNextPixel(cv::Mat image, int& start, int y);
 	void checkBitWidth(cv::Mat image, int&start, int y, int bitWidth);
 	int skipTooThickBars(cv::Mat image, int barThickness);
+	bool convertBinToInt(int binaryCode[],bool isLeft);
+	bool calcCheckDigit();
+
+	std::map<int,int> binToIntMap;
+	int barCodeValue [12];
 public:
+	UPCCodeScanner();
+	~UPCCodeScanner();
 	virtual int decodingBarcode(cv::Mat image, int& start, int end, int y);
 	
 };

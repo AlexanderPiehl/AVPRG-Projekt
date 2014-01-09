@@ -2,6 +2,25 @@
 using namespace std;
 using namespace cv;
 
+UPCCodeScanner::UPCCodeScanner()
+{
+	binToIntMap[1101]= 0;
+	binToIntMap[11001]= 1;
+	binToIntMap[10011]= 2;
+	binToIntMap[111101]= 3;
+	binToIntMap[100011]= 4;
+	binToIntMap[110001]= 5;
+	binToIntMap[101111]= 6;
+	binToIntMap[111011]= 7;
+	binToIntMap[110111]= 8;
+	binToIntMap[1011]= 9;
+
+}
+UPCCodeScanner::~UPCCodeScanner()
+{
+	binToIntMap.clear();
+}
+
 int UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 {
 	int bit_width = getBitWidthAndSkipGuard(image, start, y);
@@ -11,19 +30,26 @@ int UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 		noFailure = readCode(image, start, y, bit_width, true);
 		if(noFailure)
 		{
-		noFailure = skipMGuard(image, start, y);
+			noFailure = skipMGuard(image, start, y);
 		}
 		if (noFailure)
 		{
-		readCode(image, start, y, bit_width, false);
+			noFailure = readCode(image, start, y, bit_width, false);
 		}
 		// cout << "Bit Weite: " << bit_width << " ; X: " << start <<endl;
-		// Überprüfung der Prüfziffer hier noch einfügen für den richtigen return
+		if(noFailure)
+		{
+			for(int i = 0; i < 12; i++)
+			{
+				cout << "i: " << i << " ; Value: " << barCodeValue[i] << endl;
+			}
+			noFailure = calcCheckDigit();
+		}
 
 		if (noFailure)
 		{
 		// Der Barcode wurde richtig erkannt
-		return 1;
+				return 1;
 		}else
 			// Fehler beim durchlaufen des Codes, Rand gefunden
 			return -1;
@@ -180,7 +206,8 @@ bool UPCCodeScanner::readCode(Mat image, int& start, int y, int barWidth, bool i
 			cout << "Strich " << i << ": "<< binaryCode[i] << endl;
 		}
 	}
-	return true;
+	bool sucessConvert = convertBinToInt(binaryCode,isLeft);	
+	return sucessConvert;
 }
 
 
@@ -251,4 +278,69 @@ void UPCCodeScanner::checkBitWidth(Mat image, int& start, int y, int bitWidth)
 {
 
 
+}
+
+bool UPCCodeScanner::convertBinToInt(int binaryCode[],bool isLeft)
+{
+	bool succesConvert = true;
+	if(isLeft)
+	{
+		for(int i = 0; i < 6; i++)
+		{
+			int key = binaryCode[i];
+			if(binToIntMap.find(key) != binToIntMap.end())
+			{
+				int value = binToIntMap.at(key);
+				barCodeValue[i] = value;
+			}
+			else
+			{
+				succesConvert = false;
+				break;
+			}
+		}
+	}
+	else
+	{
+		for(int i = 0; i < 6; i++)
+		{
+			int key = binaryCode[i];
+			if(binToIntMap.find(key) != binToIntMap.end())
+			{
+				int value = binToIntMap.at(key);
+				barCodeValue[i+6] = value;
+			}
+			else 
+			{
+				succesConvert = false;
+				break;
+			}
+		}
+	}
+	return succesConvert;
+}
+
+bool UPCCodeScanner::calcCheckDigit()
+{
+	int sum1 = 0;
+	int sum2 = 0;
+	int checkDigit;
+
+	for(int i = 0; i < 11 ; i++)
+	{
+		if(0 == i%2)
+			sum1 += barCodeValue[i];
+		else
+			sum2 += barCodeValue[i];
+	}
+	sum1 *= 3;
+	sum1 += sum2;
+	checkDigit = sum1 % 10;
+	if(checkDigit > 0)
+		checkDigit = 10 - checkDigit;
+
+	if(checkDigit != barCodeValue[11])
+		return false;
+
+	return true;
 }

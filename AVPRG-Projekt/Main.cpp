@@ -1,6 +1,5 @@
 #include "CodeScanner.h"
 #include "UPCCodeScanner.h"
-#include "GUI.h"
 using namespace std;
 
 int main()
