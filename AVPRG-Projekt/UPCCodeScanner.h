@@ -15,7 +15,6 @@ private:
 	bool convertBinToInt(int binaryCode[],bool isLeft);
 	bool calcCheckDigit();
 
-	std::map<int,int> binToIntMap;
 	int barCodeValue [12];
 public:
 	UPCCodeScanner();

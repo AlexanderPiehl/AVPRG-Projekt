@@ -1,23 +1,11 @@
 #include "GUI.h"
 
-GUI gui;
+using namespace AVPRGProjekt;
 
-CMainGUI::CMainGUI()
-{
-	Create ( NULL, _T("MFC-Anwendungsskelett") );
-	
-}
-
-void CMainGUI::OnLButtonDown(UINT nFlags, CPoint point) 
-{
-	static LPCTSTR msg = TEXT("MyApp");
-   CFrameWnd::OnLButtonDown(nFlags, point);
-   MessageBox(msg);
-}
-
-BOOL GUI::InitInstance() 
-{ 
- m_pMainWnd = new CMainGUI; 
- m_pMainWnd ->ShowWindow( m_nCmdShow ); 
- return TRUE; 
+void GUI::MarshalString ( String ^ s, std::string& os ) {
+   using namespace Runtime::InteropServices;
+   const char* chars = 
+      (const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+   os = chars;
+   Marshal::FreeHGlobal(IntPtr((void*)chars));
 }

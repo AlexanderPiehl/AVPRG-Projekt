@@ -1,6 +1,8 @@
 #ifndef OPENCVTOOLS_H_
 #define OPENCVTOOLS_H_
 #include "opencv2\opencv.hpp"
+#include <string>
+#include <iostream>
 class OpenCV_Tools
 {
 public:
@@ -17,9 +19,6 @@ public:
 
 	int getVideoHeight(cv::VideoCapture video);
 	int getVideoWidth(cv::VideoCapture video);
-
-	
-
 };
 #endif
 
