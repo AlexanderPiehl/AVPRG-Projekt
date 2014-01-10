@@ -40,7 +40,7 @@ CodeNeunUndDreizig::CodeNeunUndDreizig()
 	bitToStringMap.setMap(110010000,"Y");
 	bitToStringMap.setMap(11010000,"Z");
 	bitToStringMap.setMap(10000101,"-");
-	bitToStringMap.setMap(110000100,"_");
+	bitToStringMap.setMap(110000100,".");
 	bitToStringMap.setMap(11000100," ");
 	bitToStringMap.setMap(10010100,"*");
 	bitToStringMap.setMap(10101000,"$");
