@@ -22,9 +22,6 @@ namespace AVPRGProjekt {
 		GUI(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Konstruktorcode hier hinzufügen.
-			//
 		}
 
 	protected:
@@ -47,14 +44,16 @@ namespace AVPRGProjekt {
 
 	private:
 		String^ path;
+		void MarshalString ( String ^ s, std::string& os );
+		void onStart();
+		void onLoad();
+
 	private: System::Windows::Forms::ComboBox^  comboBoxBarcode;
 	private: System::Windows::Forms::Label^  ResultLabel;
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  labelResult;
 
-
 			 System::ComponentModel::Container ^components;
-		void MarshalString ( String ^ s, std::string& os );
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -104,7 +103,6 @@ namespace AVPRGProjekt {
 			this->barcodeImage->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->barcodeImage->TabIndex = 2;
 			this->barcodeImage->TabStop = false;
-			this->barcodeImage->Click += gcnew System::EventHandler(this, &GUI::pictureBox1_Click);
 			// 
 			// comboBoxBarcode
 			// 
@@ -161,67 +159,9 @@ namespace AVPRGProjekt {
 		comboBoxBarcode->SelectedIndex = 0;
 			 }
 	private: System::Void startButton_Click(System::Object^  sender, System::EventArgs^  e) {
-				 int barcodeIndex = comboBoxBarcode->SelectedIndex;
-				 int result = 0;
-				 CodeScanner *scanner;
-				 switch(barcodeIndex)
-				 {
-				 case 0:
-					 {
-					 scanner = new UPCCodeScanner();
-					 MarshalString(path, scanner->path);
-					 result =  scanner->readBarcode();
-					 break;
-					 }
-				 case 1:
-					 {
-					 scanner = new CodeNeunUndDreizig();
-					 MarshalString(path, scanner->path);
-					 result = scanner->readBarcode();
-					 
-					 break;
-					 }
-				 }
-				 if(1 == result)
-				 {
-					 String ^labelText = gcnew String(scanner->result.c_str());
-					 labelResult->Text = labelText;
-				 }
-				 else if( 0 > result)
-				 {
-					MessageBox::Show("Es konnte leider kein Barcode ermittelt werden.","Warnung");
-				 }
-				 delete scanner;
+				onStart();
 			 }
 	private: System::Void laden_Click(System::Object^  sender, System::EventArgs^  e) {
-		Stream^ fileSteam;
-		OpenFileDialog^ openImageDialog = gcnew OpenFileDialog;
-
-		openImageDialog->InitialDirectory = "c:\\";
-		openImageDialog->Filter = "PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|All files (*.*)|*.*";
-		openImageDialog->FilterIndex = 2;
-		openImageDialog->RestoreDirectory = true;
-
-		if ( openImageDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK )
-		{
-			if ( (fileSteam = openImageDialog->OpenFile()) != nullptr )
-			{
-				try
-				{
-					path = openImageDialog->FileName;
-					barcodeImage->Image = System::Drawing::Image::FromFile(path);
-					startButton->Enabled = true;
-					fileSteam->Close();
-					labelResult->Text = "";
-				}
-				catch(System::Exception^ ex)
-				{
-					MessageBox::Show("Das Bild konnte leider nicht geladen werden. Bitte wählen Sie ein anderes Bild aus.","Warnung");
-				}
-			}
-		}
+		onLoad();
 	}
-	private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 }
-	};
 }
