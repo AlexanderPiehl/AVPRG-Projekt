@@ -65,6 +65,10 @@ int CodeNeunUndDreizig::decodingBarcode(cv::Mat image, int& start, int end, int 
 		int pixel = image.at<uchar>(y,start);
 
 		// Trennzeichen auslassen
+		//while (pixel == SPACE)
+		//{
+			//start++;
+		//}
 		// Auslesen des Codes bis zum zweiten Stern
 		if (pixel == 0)
 		foundCode = readNineElements(image, start, y, foundCode);
@@ -76,7 +80,6 @@ int CodeNeunUndDreizig::decodingBarcode(cv::Mat image, int& start, int end, int 
 		// zweiter Stern wurde gefunden. Code fertig ausgelesen. Nun muss konvertiert werden
 		if (!foundCode)	
 		{
-
 			bool successConvert = true;
 			for(int i = 0; i < binaryNumbers.size(); i++)
 			{
@@ -103,13 +106,15 @@ bool CodeNeunUndDreizig::readNineElements(Mat image, int& start, int y, bool fou
 	int code39Sign [9] = {BAR,SPACE,BAR,SPACE,BAR,SPACE,BAR,SPACE,BAR};
 	int elementWidth [9] = {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0};
 	int pixel = image.at<uchar>(y,start);
-	//cout << "Test wo x gerade ist: " << start << endl;
+	// cout << "Test wo x gerade ist: " << start << endl;
 	for(int i = 0; i < 9; i++)
 	{
 		while(code39Sign[i] == pixel)
 		{
+			//if (y == 44)
+				// cout << "Guard an der Stelle x: " << start << " y: " << y << endl;
 			// abfangen, dass er nicht über den Rand des Bildes prüft
-			if(start < image.cols-10)
+			if(start < image.cols-50)
 			{
 				// Breite der einzelnen Elemente wird gespeichert
 				elementWidth[i]++;
@@ -128,7 +133,6 @@ bool CodeNeunUndDreizig::readNineElements(Mat image, int& start, int y, bool fou
 	binaryNumbers.at(binaryNumbersSize-1) = finalBiNum;
 	if (10010100 == finalBiNum)
 		foundCode = !foundCode;
-	cout << "Die Binärzahl: " << finalBiNum << endl;
 	return foundCode;
 }
 
@@ -163,7 +167,7 @@ int CodeNeunUndDreizig::binaryNumber(int* elementWidth, int average)
 	}
 
 	if (0 < binaryNumber)
-		//cout << "Die Binärzahl lautet: " << binaryNumber << endl;
+		cout << "Die Binärzahl lautet: " << binaryNumber << endl;
 	
 	return binaryNumber;
 }
