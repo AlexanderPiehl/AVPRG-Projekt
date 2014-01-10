@@ -280,9 +280,9 @@ bool UPCCodeScanner::convert(int binaryCode[], bool isLeft)
 				result += tmpValue;
 				//Umwandlung der Strings to int für die Prüffzifferberechnung
 				if(isLeft)
-					barCodeValue[i] = atoi(tmpValue.c_str());
+					barCodeValues[i] = atoi(tmpValue.c_str());
 				else
-					barCodeValue[i+6] = atoi(tmpValue.c_str());
+					barCodeValues[i+6] = atoi(tmpValue.c_str());
 				successConvert = true;
 			}		
 			else
@@ -309,9 +309,9 @@ bool UPCCodeScanner::calcCheckDigit()
 	for(int i = 0; i < 11 ; i++)
 	{
 		if(0 == i%2)
-			sum1 += barCodeValue[i];
+			sum1 += barCodeValues[i];
 		else
-			sum2 += barCodeValue[i];
+			sum2 += barCodeValues[i];
 	}
 	sum1 *= 3;
 	sum1 += sum2;
@@ -319,7 +319,7 @@ bool UPCCodeScanner::calcCheckDigit()
 	if(checkDigit > 0)
 		checkDigit = 10 - checkDigit;
 
-	if(checkDigit != barCodeValue[11])
+	if(checkDigit != barCodeValues[11])
 		return false;
 
 	return true;
