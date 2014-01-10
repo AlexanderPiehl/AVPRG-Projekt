@@ -45,17 +45,13 @@ string CodeScanner::readBarcode()
 		if(1 == outcome)
 			break;
 	}
+	//while(true){
+	//
 
-	imshow("Test", image);
-
-
-	while(true){
-	
-
-		if(waitKey(10) != -1)
-		{
-			break; 
-		}
-	}
+	//	if(waitKey(10) != -1)
+	//	{
+	//		break; 
+	//	}
+	//}
 	return "";
 }

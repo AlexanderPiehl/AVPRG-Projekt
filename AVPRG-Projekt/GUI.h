@@ -48,6 +48,7 @@ namespace AVPRGProjekt {
 	private:
 		String^ path;
 	private: System::Windows::Forms::ComboBox^  comboBoxBarcode;
+	private: System::Windows::Forms::Label^  resultLabel;
 
 			 System::ComponentModel::Container ^components;
 		void MarshalString ( String ^ s, std::string& os );
@@ -64,6 +65,7 @@ namespace AVPRGProjekt {
 			this->startButton = (gcnew System::Windows::Forms::Button());
 			this->barcodeImage = (gcnew System::Windows::Forms::PictureBox());
 			this->comboBoxBarcode = (gcnew System::Windows::Forms::ComboBox());
+			this->resultLabel = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->barcodeImage))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -105,14 +107,22 @@ namespace AVPRGProjekt {
 			this->comboBoxBarcode->Location = System::Drawing::Point(404, 388);
 			this->comboBoxBarcode->Name = L"comboBoxBarcode";
 			this->comboBoxBarcode->Size = System::Drawing::Size(139, 21);
-			this->comboBoxBarcode->TabIndex = 3;
-			this->comboBoxBarcode->SelectedIndex = 0;
+			this->comboBoxBarcode->TabIndex = 0;
+			// 
+			// resultLabel
+			// 
+			this->resultLabel->AutoSize = true;
+			this->resultLabel->Location = System::Drawing::Point(579, 388);
+			this->resultLabel->Name = L"resultLabel";
+			this->resultLabel->Size = System::Drawing::Size(0, 13);
+			this->resultLabel->TabIndex = 4;
 			// 
 			// GUI
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(784, 424);
+			this->Controls->Add(this->resultLabel);
 			this->Controls->Add(this->comboBoxBarcode);
 			this->Controls->Add(this->barcodeImage);
 			this->Controls->Add(this->startButton);
@@ -122,6 +132,7 @@ namespace AVPRGProjekt {
 			this->Load += gcnew System::EventHandler(this, &GUI::GUI_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->barcodeImage))->EndInit();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
@@ -138,6 +149,11 @@ namespace AVPRGProjekt {
 					 scanner = new UPCCodeScanner();
 					 MarshalString(path, scanner->path);
 					 scanner->readBarcode();
+					 if(scanner->result.length() > 0)
+					 {
+						String^ labeltext = gcnew String(scanner->result.c_str());
+						resultLabel->Text = labeltext;
+					 }
 					 delete scanner;
 					 break;
 					 }
@@ -146,6 +162,11 @@ namespace AVPRGProjekt {
 					 scanner = new CodeNeunUndDreizig();
 					 MarshalString(path, scanner->path);
 					 scanner->readBarcode();
+					 if(scanner->result.length() > 0)
+					 {
+						String^ labeltext = gcnew String(scanner->result.c_str());
+						resultLabel->Text = labeltext;
+					 }
 					 delete scanner;
 					 break;
 					 }
