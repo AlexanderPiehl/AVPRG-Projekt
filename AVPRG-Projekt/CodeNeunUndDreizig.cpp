@@ -114,7 +114,7 @@ bool CodeNeunUndDreizig::readNineElements(Mat image, int& start, int y, bool fou
 			//if (y == 44)
 				// cout << "Guard an der Stelle x: " << start << " y: " << y << endl;
 			// abfangen, dass er nicht über den Rand des Bildes prüft
-			if(start < image.cols-50)
+			if(start < image.cols-5)
 			{
 				// Breite der einzelnen Elemente wird gespeichert
 				elementWidth[i]++;

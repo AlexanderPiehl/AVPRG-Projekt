@@ -74,7 +74,7 @@ int UPCCodeScanner::getBitWidthAndSkipGuard(Mat image, int& start, int y)
 			//if (y == 44)
 				// cout << "Guard an der Stelle x: " << start << " y: " << y << endl;
 			// abfangen, dass er nicht über den Rand des Bildes prüft
-			if(start < image.cols-100)
+			if(start < image.cols-10)
 				{
 				start++;
 				pixel = image.at<uchar>(y,start);
