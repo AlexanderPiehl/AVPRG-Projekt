@@ -113,6 +113,13 @@ namespace AVPRGProjekt {
 			this->comboBoxBarcode->Size = System::Drawing::Size(139, 21);
 			this->comboBoxBarcode->TabIndex = 3;
 			// 
+			// ResultLabel
+			// 
+			this->ResultLabel->Location = System::Drawing::Point(0, 0);
+			this->ResultLabel->Name = L"ResultLabel";
+			this->ResultLabel->Size = System::Drawing::Size(100, 23);
+			this->ResultLabel->TabIndex = 7;
+			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
@@ -138,6 +145,7 @@ namespace AVPRGProjekt {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->AutoSize = true;
 			this->ClientSize = System::Drawing::Size(784, 424);
 			this->Controls->Add(this->labelResult);
 			this->Controls->Add(this->label1);
