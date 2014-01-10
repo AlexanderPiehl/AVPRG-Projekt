@@ -52,7 +52,7 @@ void GUI::onLoad()
 	Stream^ fileSteam;
 	OpenFileDialog^ openImageDialog = gcnew OpenFileDialog;
 
-	openImageDialog->InitialDirectory = "C:\\Users\\%USERNAME%";
+	openImageDialog->InitialDirectory = "C:\\Users\\%USERNAME%\\";
 	openImageDialog->Filter = "PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|All files (*.*)|*.*";
 	openImageDialog->FilterIndex = 2;
 	openImageDialog->RestoreDirectory = true;
