@@ -15,8 +15,11 @@ public:
 	BitToStringMap();
 	~BitToStringMap(void);
 	OpenCV_Tools cvTools;
+	void setMap(int key, std::string value);
+	void clearMap();
+	std::string convertBitToString(int key);
 
-	std::map<int,std::string> binToIntMap;
+	std::map<int,std::string> binToStringMap;
 	std::string path;
 
 };

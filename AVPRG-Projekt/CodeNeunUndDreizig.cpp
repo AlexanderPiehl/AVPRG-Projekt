@@ -3,56 +3,58 @@ using namespace std;
 using namespace cv;
 CodeNeunUndDreizig::CodeNeunUndDreizig()
 {
-	/*
-	binToIntMap[110100]= "0";
-	binToIntMap[100100001]= "1";
-	binToIntMap[1100001]= "2";
-	binToIntMap[101100000]= "3";
-	binToIntMap[110001]= "4";
-	binToIntMap[100110000]= "5";
-	binToIntMap[1110000]= "6";
-	binToIntMap[100101]= "7";
-	binToIntMap[100100100]= "8";
-	binToIntMap[1100100]= "9";
-	binToIntMap[100001001] = "A";
-	binToIntMap[1001001] = "B";
-	binToIntMap[101001000] = "C";
-	binToIntMap[11001] = "D";
-	binToIntMap[100011000] = "E";
-	binToIntMap[1011000] = "F";
-	binToIntMap[1101] = "G";
-	binToIntMap[100001100] = "H";
-	binToIntMap[1001100] = "I";
-	binToIntMap[11100] = "J";
-	binToIntMap[100000011] = "K";
-	binToIntMap[1000011] = "L";
-	binToIntMap[101000010] = "M";
-	binToIntMap[10011] = "N";
-	binToIntMap[100010010] = "O";
-	binToIntMap[1010010] = "P";
-	binToIntMap[111] = "Q"; 
-	binToIntMap[100000110] = "R";
-	binToIntMap[1000110] = "S";
-	binToIntMap[10110] = "T";
-	binToIntMap[110000001] = "U";
-	binToIntMap[11000001] = "V";
-	binToIntMap[111000000] = "W";
-	binToIntMap[10010001] = "X";
-	binToIntMap[110010000] = "Y";
-	binToIntMap[11010000] = "Z";
-	binToIntMap[10000101] = "-";
-	binToIntMap[110000100] = "_";
-	binToIntMap[11000100] = " ";
-	binToIntMap[10010100] = "*"
-	binToIntMap[10101000] = "$";
-	binToIntMap[10100010] = "/";
-	binToIntMap[10001010] = "+";
-	binToIntMap[101010] = "%";
-	*/
+	bitToStringMap.setMap(110100,"0");
+	bitToStringMap.setMap(100100001,"1");
+	bitToStringMap.setMap(1100001,"2");
+	bitToStringMap.setMap(101100000,"3");
+	bitToStringMap.setMap(110001,"4");
+	bitToStringMap.setMap(10011000,"5");
+	bitToStringMap.setMap(1110000,"6");
+	bitToStringMap.setMap(100101,"7");
+	bitToStringMap.setMap(100100100,"8");
+	bitToStringMap.setMap(1100100,"9");
+	bitToStringMap.setMap(100001001,"A");
+	bitToStringMap.setMap(1001001,"B");
+	bitToStringMap.setMap(101001000,"C");
+	bitToStringMap.setMap(11001,"D");
+	bitToStringMap.setMap(100011000,"E");
+	bitToStringMap.setMap(1011000,"F");
+	bitToStringMap.setMap(1101,"G");
+	bitToStringMap.setMap(100001100,"H");
+	bitToStringMap.setMap(1001100,"I");
+	bitToStringMap.setMap(11100,"J");
+	bitToStringMap.setMap(100000011,"K");
+	bitToStringMap.setMap(1000011,"L");
+	bitToStringMap.setMap(101000010,"M");
+	bitToStringMap.setMap(10011,"N");
+	bitToStringMap.setMap(100010010,"O");
+	bitToStringMap.setMap(1010010,"P");
+	bitToStringMap.setMap(111,"Q");
+	bitToStringMap.setMap(100000110,"R");
+	bitToStringMap.setMap(1000110,"S");
+	bitToStringMap.setMap(10110,"T");
+	bitToStringMap.setMap(110000001,"U");
+	bitToStringMap.setMap(11000001,"V");
+	bitToStringMap.setMap(111000000,"W");
+	bitToStringMap.setMap(10010001,"X");
+	bitToStringMap.setMap(110010000,"Y");
+	bitToStringMap.setMap(11010000,"Z");
+	bitToStringMap.setMap(10000101,"-");
+	bitToStringMap.setMap(110000100,"_");
+	bitToStringMap.setMap(11000100," ");
+	bitToStringMap.setMap(10010100,"*");
+	bitToStringMap.setMap(10101000,"$");
+	bitToStringMap.setMap(10100010,"/");
+	bitToStringMap.setMap(10001010,"+");
+	bitToStringMap.setMap(101010,"%");
+
+	binaryNumbersSize = 0;
 }
 
 CodeNeunUndDreizig::~CodeNeunUndDreizig()
-{}
+{
+	bitToStringMap.clearMap();
+}
 
 int CodeNeunUndDreizig::decodingBarcode(cv::Mat image, int& start, int end, int y)
 {
@@ -75,9 +77,25 @@ int CodeNeunUndDreizig::decodingBarcode(cv::Mat image, int& start, int end, int 
 		// wenn bis kurz vor Ende des Bildes noch kein zweiter Stern gefunden wurde, abbrechen
 		if( start > end-10)
 			return -1;
-		// zweiter Stern wurde gefunden. Code fertig ausgelesen
-		if (!foundCode)
-			return 1;
+		// zweiter Stern wurde gefunden. Code fertig ausgelesen. Nun muss konvertiert werden
+		if (!foundCode)	
+		{
+			bool successConvert = true;
+			for(int i = 0; i < binaryNumbers.size(); i++)
+			{
+				successConvert = convert(binaryNumbers[i]);
+			}
+			if(successConvert)
+			{
+				return 1;
+			}
+			else
+			{
+				binaryNumbersSize = 0;
+				binaryNumbers.clear();
+				return -1;
+			}
+		}
 	}
 	return -1;
 }
@@ -110,6 +128,9 @@ bool CodeNeunUndDreizig::readNineElements(Mat image, int& start, int y, bool fou
 	}
 	int average = averageNumber(elementWidth);
 	int finalBiNum = binaryNumber(elementWidth, average);
+	binaryNumbersSize++;
+	binaryNumbers.resize(binaryNumbersSize);
+	binaryNumbers.at(binaryNumbersSize-1) = finalBiNum;
 	if (10010100 == finalBiNum)
 		foundCode = !foundCode;
 	return foundCode;
@@ -145,7 +166,25 @@ int CodeNeunUndDreizig::binaryNumber(int* elementWidth, int average)
 		
 	}
 
-	if (0 <binaryNumber)
+	if (0 < binaryNumber)
 		cout << "Die Binärzahl lautet: " << binaryNumber << endl;
+	
 	return binaryNumber;
+}
+
+bool CodeNeunUndDreizig::convert(int binaryNumber)
+{
+	string tmpValue;
+	bool successConvert = true;
+	tmpValue = bitToStringMap.convertBitToString(binaryNumber);
+	if(0 < tmpValue.length())
+	{
+		result += tmpValue;
+		successConvert = true;
+	}		
+	else
+	{
+		successConvert = false;
+	}
+	return successConvert;
 }

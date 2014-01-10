@@ -8,12 +8,12 @@ CodeScanner::CodeScanner()
 CodeScanner::~CodeScanner()
 {}
 
-string CodeScanner::readBarcode()
+int CodeScanner::readBarcode()
 {
 	Mat image;
 	try
 	{
-	image = cvTools.loadImageAsBW(path);
+		image = cvTools.loadImageAsBW(path);
 	}
 	catch (cv::Exception& e)
 	{
@@ -46,12 +46,13 @@ string CodeScanner::readBarcode()
 			{
 				foundQuietZone = false;
 				whitePixelCounter = 0;
+				result = "";
 				outcome = decodingBarcode(image, x, image.cols, y);
-				if(1 == outcome)
+				if(1 == outcome && result.length() > 0)
 					break;
 			}
 		}
-		if(1 == outcome)
+		if(1 == outcome && result.length() > 0)
 			break;
 	}
 
@@ -65,5 +66,5 @@ string CodeScanner::readBarcode()
 			break; 
 		}
 	}*/
-	return "";
+	return outcome;
 }

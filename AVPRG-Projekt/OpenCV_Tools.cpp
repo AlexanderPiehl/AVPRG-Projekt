@@ -43,12 +43,12 @@ VideoCapture OpenCV_Tools::loadVideoByWebcam()
 
 int OpenCV_Tools::getVideoHeight(VideoCapture video)
 {
-	int height = video.get(CV_CAP_PROP_FRAME_HEIGHT);
+	int height = static_cast<int>(video.get(CV_CAP_PROP_FRAME_HEIGHT));
 	return height;
 }
 
 int OpenCV_Tools::getVideoWidth(VideoCapture video)
 {
-	int width = video.get(CV_CAP_PROP_FRAME_WIDTH);
+	int width = static_cast<int>(video.get(CV_CAP_PROP_FRAME_WIDTH));
 	return width;
 }

@@ -48,6 +48,10 @@ namespace AVPRGProjekt {
 	private:
 		String^ path;
 	private: System::Windows::Forms::ComboBox^  comboBoxBarcode;
+	private: System::Windows::Forms::Label^  ResultLabel;
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::Label^  labelResult;
+
 
 			 System::ComponentModel::Container ^components;
 		void MarshalString ( String ^ s, std::string& os );
@@ -64,6 +68,9 @@ namespace AVPRGProjekt {
 			this->startButton = (gcnew System::Windows::Forms::Button());
 			this->barcodeImage = (gcnew System::Windows::Forms::PictureBox());
 			this->comboBoxBarcode = (gcnew System::Windows::Forms::ComboBox());
+			this->ResultLabel = (gcnew System::Windows::Forms::Label());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->labelResult = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->barcodeImage))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -107,13 +114,36 @@ namespace AVPRGProjekt {
 			this->comboBoxBarcode->Name = L"comboBoxBarcode";
 			this->comboBoxBarcode->Size = System::Drawing::Size(139, 21);
 			this->comboBoxBarcode->TabIndex = 3;
-			this->comboBoxBarcode->SelectedIndex = 0;
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->label1->Location = System::Drawing::Point(549, 388);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(70, 18);
+			this->label1->TabIndex = 5;
+			this->label1->Text = L"Ergebnis:";
+			// 
+			// labelResult
+			// 
+			this->labelResult->AutoSize = true;
+			this->labelResult->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->labelResult->Location = System::Drawing::Point(622, 388);
+			this->labelResult->Name = L"labelResult";
+			this->labelResult->Size = System::Drawing::Size(0, 18);
+			this->labelResult->TabIndex = 6;
 			// 
 			// GUI
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(784, 424);
+			this->Controls->Add(this->labelResult);
+			this->Controls->Add(this->label1);
+			this->Controls->Add(this->ResultLabel);
 			this->Controls->Add(this->comboBoxBarcode);
 			this->Controls->Add(this->barcodeImage);
 			this->Controls->Add(this->startButton);
@@ -123,6 +153,7 @@ namespace AVPRGProjekt {
 			this->Load += gcnew System::EventHandler(this, &GUI::GUI_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->barcodeImage))->EndInit();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
@@ -131,6 +162,7 @@ namespace AVPRGProjekt {
 			 }
 	private: System::Void startButton_Click(System::Object^  sender, System::EventArgs^  e) {
 				 int barcodeIndex = comboBoxBarcode->SelectedIndex;
+				 int result = 0;
 				 CodeScanner *scanner;
 				 switch(barcodeIndex)
 				 {
@@ -138,48 +170,57 @@ namespace AVPRGProjekt {
 					 {
 					 scanner = new UPCCodeScanner();
 					 MarshalString(path, scanner->path);
-					 scanner->readBarcode();
-					 delete scanner;
+					 result =  scanner->readBarcode();
 					 break;
 					 }
 				 case 1:
 					 {
 					 scanner = new CodeNeunUndDreizig();
 					 MarshalString(path, scanner->path);
-					 scanner->readBarcode();
-					 delete scanner;
+					 result = scanner->readBarcode();
+					 
 					 break;
 					 }
-				 }	
+				 }
+				 if(1 == result)
+				 {
+					 String ^labelText = gcnew String(scanner->result.c_str());
+					 labelResult->Text = labelText;
+				 }
+				 else if( 0 > result)
+				 {
+					MessageBox::Show("Es konnte leider kein Barcode ermittelt werden.","Warnung");
+				 }
+				 delete scanner;
 			 }
 	private: System::Void laden_Click(System::Object^  sender, System::EventArgs^  e) {
-				 Stream^ fileSteam;
-      OpenFileDialog^ openImageDialog = gcnew OpenFileDialog;
+		Stream^ fileSteam;
+		OpenFileDialog^ openImageDialog = gcnew OpenFileDialog;
 
-      openImageDialog->InitialDirectory = "c:\\";
-      openImageDialog->Filter = "PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|All files (*.*)|*.*";
-      openImageDialog->FilterIndex = 2;
-      openImageDialog->RestoreDirectory = true;
+		openImageDialog->InitialDirectory = "c:\\";
+		openImageDialog->Filter = "PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|All files (*.*)|*.*";
+		openImageDialog->FilterIndex = 2;
+		openImageDialog->RestoreDirectory = true;
 
-      if ( openImageDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK )
-      {
-         if ( (fileSteam = openImageDialog->OpenFile()) != nullptr )
-         {
-			 try
-			 {
-				path = openImageDialog->FileName;
-				barcodeImage->Image = System::Drawing::Image::FromFile(path);
-				startButton->Enabled = true;
-				fileSteam->Close();
-			 }
-			 catch(System::Exception^ ex)
-			 {
-				 MessageBox::Show("Das Bild konnte leider nicht geladen werden. Bitte wählen Sie ein anderes Bild aus.","Warnung");
-			 }
-         }
-      }
-			 }
+		if ( openImageDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK )
+		{
+			if ( (fileSteam = openImageDialog->OpenFile()) != nullptr )
+			{
+				try
+				{
+					path = openImageDialog->FileName;
+					barcodeImage->Image = System::Drawing::Image::FromFile(path);
+					startButton->Enabled = true;
+					fileSteam->Close();
+				}
+				catch(System::Exception^ ex)
+				{
+					MessageBox::Show("Das Bild konnte leider nicht geladen werden. Bitte wählen Sie ein anderes Bild aus.","Warnung");
+				}
+			}
+		}
+	}
 	private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 }
-};
+	};
 }

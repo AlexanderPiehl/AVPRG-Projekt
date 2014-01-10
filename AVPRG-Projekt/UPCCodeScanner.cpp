@@ -4,21 +4,20 @@ using namespace cv;
 
 UPCCodeScanner::UPCCodeScanner()
 {
-	binToIntMap[1101]= 0;
-	binToIntMap[11001]= 1;
-	binToIntMap[10011]= 2;
-	binToIntMap[111101]= 3;
-	binToIntMap[100011]= 4;
-	binToIntMap[110001]= 5;
-	binToIntMap[101111]= 6;
-	binToIntMap[111011]= 7;
-	binToIntMap[110111]= 8;
-	binToIntMap[1011]= 9;
-
+	bitToStringMap.setMap(1101,"0");
+	bitToStringMap.setMap(11001,"1");
+	bitToStringMap.setMap(10011,"2");
+	bitToStringMap.setMap(111101,"3");
+	bitToStringMap.setMap(100011,"4");
+	bitToStringMap.setMap(110001,"5");
+	bitToStringMap.setMap(101111,"6");
+	bitToStringMap.setMap(111011,"7");
+	bitToStringMap.setMap(110111,"8");
+	bitToStringMap.setMap(1011,"9");
 }
 UPCCodeScanner::~UPCCodeScanner()
 {
-	binToIntMap.clear();
+	bitToStringMap.clearMap();
 }
 
 int UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
@@ -39,10 +38,7 @@ int UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 		// cout << "Bit Weite: " << bit_width << " ; X: " << start <<endl;
 		if(noFailure)
 		{
-			for(int i = 0; i < 12; i++)
-			{
-				cout << "i: " << i << " ; Value: " << barCodeValue[i] << endl;
-			}
+			cout << result << endl;
 			noFailure = calcCheckDigit();
 		}
 
@@ -199,15 +195,9 @@ bool UPCCodeScanner::readCode(Mat image, int& start, int y, int barWidth, bool i
 		}
 	}
 	cout << "y ist: " << y << endl;
-	for(int i = 0; i < 6; i++)
-	{
-		if(binaryCode[i] > 0)
-		{
-			cout << "Strich " << i << ": "<< binaryCode[i] << endl;
-		}
-	}
-	bool sucessConvert = convertBinToInt(binaryCode,isLeft);	
-	return sucessConvert;
+	
+	bool successConvert = convert(binaryCode,isLeft);	
+	return successConvert;
 }
 
 
@@ -274,50 +264,40 @@ bool UPCCodeScanner::skipMGuard(Mat image, int& start, int y)
 	return true;
 }
 
-void UPCCodeScanner::checkBitWidth(Mat image, int& start, int y, int bitWidth)
+
+bool UPCCodeScanner::convert(int binaryCode[], bool isLeft)
 {
-
-
-}
-
-bool UPCCodeScanner::convertBinToInt(int binaryCode[],bool isLeft)
-{
-	bool succesConvert = true;
-	if(isLeft)
+	string tmpValue;
+	bool successConvert = true;
+	for(int i = 0; i < 6; i++)
 	{
-		for(int i = 0; i < 6; i++)
+		if(binaryCode[i] > 0)
 		{
-			int key = binaryCode[i];
-			if(binToIntMap.find(key) != binToIntMap.end())
+			cout << "Strich " << i << ": "<< binaryCode[i] << endl;
+			tmpValue = bitToStringMap.convertBitToString(binaryCode[i]);
+			if(0 < tmpValue.length())
 			{
-				int value = binToIntMap.at(key);
-				barCodeValue[i] = value;
-			}
+				result += tmpValue;
+				//Umwandlung der Strings to int für die Prüffzifferberechnung
+				if(isLeft)
+					barCodeValue[i] = atoi(tmpValue.c_str());
+				else
+					barCodeValue[i+6] = atoi(tmpValue.c_str());
+				successConvert = true;
+			}		
 			else
 			{
-				succesConvert = false;
+				successConvert = false;
 				break;
 			}
 		}
-	}
-	else
-	{
-		for(int i = 0; i < 6; i++)
+		else
 		{
-			int key = binaryCode[i];
-			if(binToIntMap.find(key) != binToIntMap.end())
-			{
-				int value = binToIntMap.at(key);
-				barCodeValue[i+6] = value;
-			}
-			else 
-			{
-				succesConvert = false;
-				break;
-			}
+			successConvert = false;
+			break;
 		}
 	}
-	return succesConvert;
+	return successConvert;
 }
 
 bool UPCCodeScanner::calcCheckDigit()
