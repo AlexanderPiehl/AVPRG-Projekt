@@ -156,12 +156,13 @@ namespace AVPRGProjekt {
 		}
 #pragma endregion
 	private: System::Void GUI_Load(System::Object^  sender, System::EventArgs^  e) {
-		comboBoxBarcode->SelectedIndex = 0;
+				comboBoxBarcode->SelectedIndex = 0;
 			 }
 	private: System::Void startButton_Click(System::Object^  sender, System::EventArgs^  e) {
 				onStart();
 			 }
 	private: System::Void laden_Click(System::Object^  sender, System::EventArgs^  e) {
-		onLoad();
-	}
+				onLoad();
+			 }
+	};
 }

@@ -42,7 +42,7 @@ void GUI::onStart()
 	}
 	else if( 0 > result)
 	{
-	MessageBox::Show("Es konnte leider kein Barcode ermittelt werden.","Warnung");
+		MessageBox::Show("Es konnte leider kein Barcode ermittelt werden.","Warnung");
 	}
 	delete scanner;
 }
@@ -52,7 +52,7 @@ void GUI::onLoad()
 	Stream^ fileSteam;
 	OpenFileDialog^ openImageDialog = gcnew OpenFileDialog;
 
-	openImageDialog->InitialDirectory = "c:\\";
+	openImageDialog->InitialDirectory = "C:\\Users\\%USERNAME%";
 	openImageDialog->Filter = "PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|All files (*.*)|*.*";
 	openImageDialog->FilterIndex = 2;
 	openImageDialog->RestoreDirectory = true;
