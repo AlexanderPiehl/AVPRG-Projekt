@@ -158,7 +158,7 @@ namespace AVPRGProjekt {
 		}
 #pragma endregion
 	private: System::Void GUI_Load(System::Object^  sender, System::EventArgs^  e) {
-	  
+		comboBoxBarcode->SelectedIndex = 0;
 			 }
 	private: System::Void startButton_Click(System::Object^  sender, System::EventArgs^  e) {
 				 int barcodeIndex = comboBoxBarcode->SelectedIndex;
@@ -212,6 +212,7 @@ namespace AVPRGProjekt {
 					barcodeImage->Image = System::Drawing::Image::FromFile(path);
 					startButton->Enabled = true;
 					fileSteam->Close();
+					labelResult->Text = "";
 				}
 				catch(System::Exception^ ex)
 				{
