@@ -48,6 +48,7 @@ int CodeScanner::readBarcode()
 				whitePixelCounter = 0;
 				result = "";
 				outcome = decodingBarcode(image, x, image.cols, y);
+				cout << "Das Ergebnis der Methode ist: " << outcome << endl;
 				if(1 == outcome && result.length() > 0)
 					break;
 			}
