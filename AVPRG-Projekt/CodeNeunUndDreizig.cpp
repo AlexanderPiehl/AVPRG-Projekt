@@ -52,9 +52,7 @@ CodeNeunUndDreizig::CodeNeunUndDreizig()
 }
 
 CodeNeunUndDreizig::~CodeNeunUndDreizig()
-{
-
-}
+{}
 
 int CodeNeunUndDreizig::decodingBarcode(cv::Mat image, int& start, int end, int y)
 {
@@ -81,8 +79,6 @@ int CodeNeunUndDreizig::decodingBarcode(cv::Mat image, int& start, int end, int 
 		if (!foundCode)
 			return 1;
 	}
-
-
 	return -1;
 }
 

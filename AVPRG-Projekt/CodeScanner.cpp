@@ -3,8 +3,7 @@ using namespace cv;
 using namespace std;
 
 CodeScanner::CodeScanner()
-{
-}
+{}
 
 CodeScanner::~CodeScanner()
 {}

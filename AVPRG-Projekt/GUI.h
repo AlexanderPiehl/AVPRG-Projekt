@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UPCCodeScanner.h"
+#include "CodeNeunUndDreizig.h"
 
 namespace AVPRGProjekt {
 
@@ -46,7 +47,9 @@ namespace AVPRGProjekt {
 
 	private:
 		String^ path;
-		System::ComponentModel::Container ^components;
+	private: System::Windows::Forms::ComboBox^  comboBoxBarcode;
+
+			 System::ComponentModel::Container ^components;
 		void MarshalString ( String ^ s, std::string& os );
 
 #pragma region Windows Form Designer generated code
@@ -60,6 +63,7 @@ namespace AVPRGProjekt {
 			this->laden = (gcnew System::Windows::Forms::Button());
 			this->startButton = (gcnew System::Windows::Forms::Button());
 			this->barcodeImage = (gcnew System::Windows::Forms::PictureBox());
+			this->comboBoxBarcode = (gcnew System::Windows::Forms::ComboBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->barcodeImage))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -96,16 +100,27 @@ namespace AVPRGProjekt {
 			this->barcodeImage->TabStop = false;
 			this->barcodeImage->Click += gcnew System::EventHandler(this, &GUI::pictureBox1_Click);
 			// 
+			// comboBoxBarcode
+			// 
+			this->comboBoxBarcode->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+			this->comboBoxBarcode->Items->AddRange(gcnew cli::array< System::Object^  >(2) {L"UPC-Code", L"Code39"});
+			this->comboBoxBarcode->Location = System::Drawing::Point(404, 388);
+			this->comboBoxBarcode->Name = L"comboBoxBarcode";
+			this->comboBoxBarcode->Size = System::Drawing::Size(139, 21);
+			this->comboBoxBarcode->TabIndex = 3;
+			this->comboBoxBarcode->SelectedIndex = 0;
+			// 
 			// GUI
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(784, 424);
+			this->Controls->Add(this->comboBoxBarcode);
 			this->Controls->Add(this->barcodeImage);
 			this->Controls->Add(this->startButton);
 			this->Controls->Add(this->laden);
 			this->Name = L"GUI";
-			this->Text = L"GUI";
+			this->Text = L"Barcode Leser";
 			this->Load += gcnew System::EventHandler(this, &GUI::GUI_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->barcodeImage))->EndInit();
 			this->ResumeLayout(false);
@@ -115,10 +130,28 @@ namespace AVPRGProjekt {
 	private: System::Void GUI_Load(System::Object^  sender, System::EventArgs^  e) {
 	  
 			 }
-	private: System::Void startButton_Click(System::Object^  sender, System::EventArgs^  e) {		 
-				 UPCCodeScanner scanner;
-				 MarshalString(path, scanner.path);
-				 scanner.readBarcode();
+	private: System::Void startButton_Click(System::Object^  sender, System::EventArgs^  e) {
+				 int barcodeIndex = comboBoxBarcode->SelectedIndex;
+				 CodeScanner *scanner;
+				 switch(barcodeIndex)
+				 {
+				 case 0:
+					 {
+					 scanner = new UPCCodeScanner();
+					 MarshalString(path, scanner->path);
+					 scanner->readBarcode();
+					 delete scanner;
+					 break;
+					 }
+				 case 1:
+					 {
+					 scanner = new CodeNeunUndDreizig();
+					 MarshalString(path, scanner->path);
+					 scanner->readBarcode();
+					 delete scanner;
+					 break;
+					 }
+				 }	
 			 }
 	private: System::Void laden_Click(System::Object^  sender, System::EventArgs^  e) {
 				 Stream^ myStream;

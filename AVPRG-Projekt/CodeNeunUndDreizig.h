@@ -1,5 +1,5 @@
 #ifndef CODENEUNUNDDREIZIG_H_
-#define CODENEUNUNDDREIZIG_H__H_
+#define CODENEUNUNDDREIZIG_H_
 #include "CodeScanner.h"
 
 class CodeNeunUndDreizig : public CodeScanner
