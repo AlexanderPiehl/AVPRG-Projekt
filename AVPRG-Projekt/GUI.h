@@ -90,7 +90,6 @@ namespace AVPRGProjekt {
 			// 
 			// barcodeImage
 			// 
-			this->barcodeImage->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"barcodeImage.Image")));
 			this->barcodeImage->InitialImage = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"barcodeImage.InitialImage")));
 			this->barcodeImage->Location = System::Drawing::Point(28, 12);
 			this->barcodeImage->Name = L"barcodeImage";
@@ -98,7 +97,6 @@ namespace AVPRGProjekt {
 			this->barcodeImage->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->barcodeImage->TabIndex = 2;
 			this->barcodeImage->TabStop = false;
-			this->barcodeImage->Click += gcnew System::EventHandler(this, &GUI::pictureBox1_Click);
 			// 
 			// comboBoxBarcode
 			// 
@@ -166,14 +164,20 @@ namespace AVPRGProjekt {
       {
          if ( (myStream = openFileDialog1->OpenFile()) != nullptr )
          {
-			path = openFileDialog1->FileName;
-			barcodeImage->Image->FromFile(path);
-			startButton->Enabled = true;
-            myStream->Close();
+			 try
+			 {
+				path = openFileDialog1->FileName;
+				barcodeImage->Image->FromFile(path);
+				barcodeImage->Image = System::Drawing::Image::FromFile(path);
+				startButton->Enabled = true;
+				myStream->Close();
+			 }
+			 catch(System::Exception^ ex)
+			 {
+				  MessageBox::Show("Das Bild konnte leider nicht geladen werden. Bitte wählen Sie ein anderes Bild aus.","Warnung");
+			 }
          }
       }
-			 }
-	private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 }
+	}
 };
 }
