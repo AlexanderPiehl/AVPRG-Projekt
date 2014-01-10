@@ -90,7 +90,6 @@ namespace AVPRGProjekt {
 			// 
 			// barcodeImage
 			// 
-			this->barcodeImage->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"barcodeImage.Image")));
 			this->barcodeImage->InitialImage = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"barcodeImage.InitialImage")));
 			this->barcodeImage->Location = System::Drawing::Point(28, 12);
 			this->barcodeImage->Name = L"barcodeImage";
@@ -154,22 +153,29 @@ namespace AVPRGProjekt {
 				 }	
 			 }
 	private: System::Void laden_Click(System::Object^  sender, System::EventArgs^  e) {
-		Stream^ myStream;
-      OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
+				 Stream^ fileSteam;
+      OpenFileDialog^ openImageDialog = gcnew OpenFileDialog;
 
-      openFileDialog1->InitialDirectory = "c:\\";
-      openFileDialog1->Filter = "png files (*.png)|*.png|jpg files (*.jpg)|*.jpg|All files (*.*)|*.*";
-      openFileDialog1->FilterIndex = 2;
-      openFileDialog1->RestoreDirectory = true;
+      openImageDialog->InitialDirectory = "c:\\";
+      openImageDialog->Filter = "PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|All files (*.*)|*.*";
+      openImageDialog->FilterIndex = 2;
+      openImageDialog->RestoreDirectory = true;
 
-      if ( openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK )
+      if ( openImageDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK )
       {
-         if ( (myStream = openFileDialog1->OpenFile()) != nullptr )
+         if ( (fileSteam = openImageDialog->OpenFile()) != nullptr )
          {
-			path = openFileDialog1->FileName;
-			barcodeImage->Image->FromFile(path);
-			startButton->Enabled = true;
-            myStream->Close();
+			 try
+			 {
+				path = openImageDialog->FileName;
+				barcodeImage->Image = System::Drawing::Image::FromFile(path);
+				startButton->Enabled = true;
+				fileSteam->Close();
+			 }
+			 catch(System::Exception^ ex)
+			 {
+				 MessageBox::Show("Das Bild konnte leider nicht geladen werden. Bitte wählen Sie ein anderes Bild aus.","Warnung");
+			 }
          }
       }
 			 }

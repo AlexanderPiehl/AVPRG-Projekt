@@ -57,17 +57,13 @@ string CodeScanner::readBarcode()
 
 	if (1 > outcome)
 		cout << "Keinen Barcode gefunden oder Barcode nicht lesbar";
-
-	imshow("Test", image);
-
-
-	while(true){
+	/*while(true){
 	
 
 		if(waitKey(10) != -1)
 		{
 			break; 
 		}
-	}
+	}*/
 	return "";
 }
