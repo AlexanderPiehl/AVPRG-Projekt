@@ -42,7 +42,6 @@ int UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 			for(int i = 0; i < 12; i++)
 			{
 				cout << "i: " << i << " ; Value: " << barCodeValue[i] << endl;
-				result += barCodeValue[i];
 			}
 			noFailure = calcCheckDigit();
 		}

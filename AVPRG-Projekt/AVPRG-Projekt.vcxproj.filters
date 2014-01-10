@@ -33,7 +33,7 @@
     <ClInclude Include="CodeNeunUndDreizig.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="BitToResultMap.h">
+    <ClInclude Include="BitToStringMap.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClCompile Include="CodeNeunUndDreizig.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="BitToResultMap.cpp">
+    <ClCompile Include="BitToStringMap.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

@@ -22,7 +22,6 @@ public:
 
 	std::map<int,int> binToIntMap;
 	std::string path;
-	std::string result;
 
 };
 #endif

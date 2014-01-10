@@ -82,7 +82,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BitToResultMap.h" />
+    <ClInclude Include="BitToStringMap.h" />
     <ClInclude Include="CodeNeunUndDreizig.h" />
     <ClInclude Include="CodeScanner.h" />
     <ClInclude Include="GUI.h">
@@ -92,7 +92,7 @@
     <ClInclude Include="UPCCodeScanner.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BitToResultMap.cpp" />
+    <ClCompile Include="BitToStringMap.cpp" />
     <ClCompile Include="CodeNeunUndDreizig.cpp" />
     <ClCompile Include="CodeScanner.cpp" />
     <ClCompile Include="GUI.cpp" />

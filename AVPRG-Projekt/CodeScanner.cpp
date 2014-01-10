@@ -10,7 +10,16 @@ CodeScanner::~CodeScanner()
 
 string CodeScanner::readBarcode()
 {
-	Mat image = cvTools.loadImageAsBW(path);
+	Mat image;
+	try
+	{
+	image = cvTools.loadImageAsBW(path);
+	}
+	catch (cv::Exception& e)
+	{
+		const char* err_msg = e.what();
+		std::cout << "exception caught: " << err_msg << std::endl;
+	}
 	// Ergebnis Fehler oder Ein richtiges Ergebnis
 	int  outcome = 0;
 	// Hiermit wird nur eine Guard gesucht, wenn auch eine Quiet zone gefunden wurde
@@ -45,13 +54,20 @@ string CodeScanner::readBarcode()
 		if(1 == outcome)
 			break;
 	}
-	//while(true){
-	//
 
-	//	if(waitKey(10) != -1)
-	//	{
-	//		break; 
-	//	}
-	//}
+	if (1 > outcome)
+		cout << "Keinen Barcode gefunden oder Barcode nicht lesbar";
+
+	imshow("Test", image);
+
+
+	while(true){
+	
+
+		if(waitKey(10) != -1)
+		{
+			break; 
+		}
+	}
 	return "";
 }
