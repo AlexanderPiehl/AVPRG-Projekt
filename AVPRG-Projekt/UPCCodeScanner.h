@@ -14,7 +14,7 @@ private:
 	bool convert(int binaryCode[], bool isLeft);
 	bool calcCheckDigit();
 
-	int barCodeValue [12];
+	int barCodeValues [12];
 public:
 	UPCCodeScanner();
 	~UPCCodeScanner();
