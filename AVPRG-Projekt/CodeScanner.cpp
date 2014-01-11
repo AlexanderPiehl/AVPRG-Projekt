@@ -2,11 +2,9 @@
 using namespace cv;
 using namespace std;
 
-CodeScanner::CodeScanner()
-{}
+CodeScanner::CodeScanner(){}
 
-CodeScanner::~CodeScanner()
-{}
+CodeScanner::~CodeScanner(){}
 
 int CodeScanner::readBarcode()
 {
@@ -19,18 +17,18 @@ int CodeScanner::readBarcode()
 	{
 		const char* err_msg = e.what();
 		std::cout << "exception caught: " << err_msg << std::endl;
+		return -2;
 	}
-	// Ergebnis Fehler oder Ein richtiges Ergebnis
+	// Ergebnis Fehler oder Ein richtiges Ergebnis;1= barcode gefunden, kleiner 1 = Fehler
 	int  outcome = 0;
 	// Hiermit wird nur eine Guard gesucht, wenn auch eine Quiet zone gefunden wurde
 	int whitePixelCounter = 0;
 	//Quiet zone gefunden oder nicht
 	bool foundQuietZone = false;
-	//Anfang in der Mitte
-	int startY = image.rows / 2;
 	cout << "Gesamtlaenge des Bildes" << image.cols << endl;
+	
 	//Durchlauf von links nach rechts
-	for (int y =44; y < image.rows; y=y+4)
+	for (int y =0; y < image.rows; y=y+4)
 	{
 		cout << "y ist: " << y << endl;
 		for(int x = 0 ; x < image.cols-100; x++)
@@ -42,12 +40,14 @@ int CodeScanner::readBarcode()
 			// Wenn eine quiet zonde gefunden, darf nach einer Guard gesucht werden.
 			if (9 < whitePixelCounter)
 				foundQuietZone = true;
+			//Wenn QuietZone gefonden wurden ist und ein schwarzer Pixel kommt, wird versucht den Barcode auszulesen
 			if(0 == pixel && foundQuietZone)
 			{
 				foundQuietZone = false;
 				whitePixelCounter = 0;
 				result = "";
 				outcome = decodingBarcode(image, x, image.cols, y);
+				//Abfrage, ob Barcode gefunden
 				if(1 == outcome && result.length() > 0)
 					break;
 			}
@@ -58,13 +58,6 @@ int CodeScanner::readBarcode()
 
 	if (1 > outcome)
 		cout << "Keinen Barcode gefunden oder Barcode nicht lesbar";
-	/*while(true){
-	
 
-		if(waitKey(10) != -1)
-		{
-			break; 
-		}
-	}*/
 	return outcome;
 }

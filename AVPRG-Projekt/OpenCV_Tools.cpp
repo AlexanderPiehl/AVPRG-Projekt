@@ -1,16 +1,9 @@
 #include "OpenCV_Tools.h"
 using namespace cv;
 using namespace std;
-using namespace System;
 
-OpenCV_Tools::OpenCV_Tools(void)
-{
-}
-
-
-OpenCV_Tools::~OpenCV_Tools(void)
-{
-}
+OpenCV_Tools::OpenCV_Tools(void){}
+OpenCV_Tools::~OpenCV_Tools(void){}
 
 Mat OpenCV_Tools::loadImage(string path)
 {

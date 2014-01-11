@@ -1,5 +1,6 @@
 #ifndef CODESCANNER_H_
 #define CODESCANNER_H_
+
 #include <opencv2\opencv.hpp>
 #include "OpenCV_Tools.h"
 #include "BitToStringMap.h"
@@ -12,7 +13,6 @@ class CodeScanner
 private:
 	
 protected:
-
 
 public:
 	CodeScanner();

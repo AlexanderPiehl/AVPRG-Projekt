@@ -40,6 +40,11 @@ void GUI::onStart()
 		String ^labelText = gcnew String(scanner->result.c_str());
 		labelResult->Text = labelText;
 	}
+	else if(-2 == result)
+	{
+		MessageBox::Show("Es gab einen Fehler beim internen Laden der Bilddatei.","Warnung");
+		startButton->Enabled = false;
+	}
 	else if( 0 > result)
 	{
 		MessageBox::Show("Es konnte leider kein Barcode ermittelt werden.","Warnung");

@@ -22,10 +22,12 @@ UPCCodeScanner::~UPCCodeScanner()
 
 int UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 {
+	//Weite eines Bit ermitteln mithilfe der linken Grenze
 	int bit_width = getBitWidthAndSkipGuard(image, start, y);
 	if(0 < bit_width)
 	{
 		bool noFailure = true;
+		//Linke Seite des Barcodes lesen
 		noFailure = readCode(image, start, y, bit_width, true);
 		if(noFailure)
 		{
@@ -33,15 +35,15 @@ int UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 		}
 		if (noFailure)
 		{
+			//rechte Seite des Barcodes lesen
 			noFailure = readCode(image, start, y, bit_width, false);
 		}
-		// cout << "Bit Weite: " << bit_width << " ; X: " << start <<endl;
 		if(noFailure)
 		{
 			cout << result << endl;
+			//Prüfziffer berechnen und überprüfen
 			noFailure = calcCheckDigit();
 		}
-
 		if (noFailure)
 		{
 		// Der Barcode wurde richtig erkannt
@@ -53,10 +55,8 @@ int UPCCodeScanner::decodingBarcode(Mat image, int& start, int end, int y)
 	else
 	{
 		// Fehler, keine Guard gefunden
-		// cout << "keine Guard gefunden an der stelle x: " << start << " und y: " << y <<endl;
 		return -1;
-	}
-	
+	}	
 }
 
 int UPCCodeScanner::getBitWidthAndSkipGuard(Mat image, int& start, int y)
@@ -66,14 +66,12 @@ int UPCCodeScanner::getBitWidthAndSkipGuard(Mat image, int& start, int y)
 	int widthSpace = 0;
 	int widthBarLast = 0;
 	int pixel = image.at<uchar>(y,start);
-	// cout << "Test wo x gerade ist: " << start << endl;
+	
+	//Ermitteln der Weite der einzelnen Grenzen
 	for(int i = 0; i < 3; i++)
 	{
 		while(lGuard[i] == pixel)
 		{
-			//if (y == 44)
-				// cout << "Guard an der Stelle x: " << start << " y: " << y << endl;
-			// abfangen, dass er nicht über den Rand des Bildes prüft
 			if(start < image.cols-10)
 				{
 				start++;
@@ -92,23 +90,29 @@ int UPCCodeScanner::getBitWidthAndSkipGuard(Mat image, int& start, int y)
 				int thirdBarBorderline = skipTooThickBars(image, widthBarLast);
 				int borderline = firstBarBorderline + secondBarBorderline + thirdBarBorderline;
 				if(3 > borderline)
-					return -1;
-				
-			}else
+					return -1;		
+			}
+			else
 				break;
 		}
 	}
-	// cout << "Test wo x gerade ist: " << start << endl;
+
 	//Kontrolle ob 2 Weiten gleich sind, wenn nicht -1 als Fehler
-	if(widthBarFirst == widthBarLast){
+	if(widthBarFirst == widthBarLast)
+	{
 		cout << "Guard 1. Bar: " << widthBarFirst << " letze Bar " << widthBarLast << endl;
-		return widthBarFirst;}
-	else if(widthBarFirst == widthSpace){
+		return widthBarFirst;
+	}
+	else if(widthBarFirst == widthSpace)
+	{
 		cout << "Guard 1. Bar: " << widthBarFirst << " mittlere Bar " << widthSpace << endl;
-	return widthBarFirst;}
-	else if(widthSpace == widthBarLast){
+		return widthBarFirst;
+	}
+	else if(widthSpace == widthBarLast)
+	{
 		cout << "Guard mittlere Bar: " << widthSpace << " letzte Bar " << widthBarLast << endl;
-		return widthSpace;}
+		return widthSpace;
+	}
 	else
 		// Entweder keine Guard getroffen oder Guard ist zu beschädigt um sie zu lesen
 		return -1;
@@ -183,19 +187,20 @@ bool UPCCodeScanner::readCode(Mat image, int& start, int y, int barWidth, bool i
 				}
 			}
 			
-			// cout << "Strich " << i+1 << " : " << binaryCode[i] << " Position X: " << start << endl;
 			if(start<image.cols-10)
 			{
 				// Sprung um eine Standardlänge weiter
 				start+= barWidth;
 				// der bit Counter wird durch 10 geteilt um beim nächsten Durchgang das Bit einen weiter rechts zu setzten
 				bitCounter = bitCounter / 10;
-			}else
+			}
+			else
 				return false;
 		}
 	}
 	cout << "y ist: " << y << endl;
-	
+
+	//Konvertierung der Bitwerte in Strings
 	bool successConvert = convert(binaryCode,isLeft);	
 	return successConvert;
 }
@@ -257,7 +262,8 @@ bool UPCCodeScanner::skipMGuard(Mat image, int& start, int y)
 			{
 				start++;
 				pixel = image.at<uchar>(y,start);
-			}else
+			}
+			else
 				return false;
 		}
 	}
@@ -287,12 +293,14 @@ bool UPCCodeScanner::convert(int binaryCode[], bool isLeft)
 			}		
 			else
 			{
+				//Key war nicht in der Map enthalten
 				successConvert = false;
 				break;
 			}
 		}
 		else
 		{
+			//Key muss groesser als 0 sein
 			successConvert = false;
 			break;
 		}

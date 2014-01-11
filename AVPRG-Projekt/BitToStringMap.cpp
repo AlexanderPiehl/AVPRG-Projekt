@@ -1,10 +1,8 @@
 #include "BitToStringMap.h"
 using namespace std;
-BitToStringMap::BitToStringMap()
-{}
+BitToStringMap::BitToStringMap(){}
 
-BitToStringMap::~BitToStringMap()
-{}
+BitToStringMap::~BitToStringMap(){}
 
 void BitToStringMap::setMap(int key, string value)
 {

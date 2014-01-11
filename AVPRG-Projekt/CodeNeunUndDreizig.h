@@ -16,7 +16,6 @@ private:
 public:
 	CodeNeunUndDreizig();
 	~CodeNeunUndDreizig();
-	virtual int decodingBarcode(cv::Mat image, int& start, int end, int y);
-	
+	virtual int decodingBarcode(cv::Mat image, int& start, int end, int y);	
 };
 #endif

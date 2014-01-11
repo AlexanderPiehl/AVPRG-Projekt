@@ -4,6 +4,7 @@ using namespace AVPRGProjekt;
 [STAThreadAttribute]
 int main()
 {
+	//GUI vorbereiten
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
 

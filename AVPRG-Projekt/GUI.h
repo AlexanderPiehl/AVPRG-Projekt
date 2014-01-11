@@ -3,6 +3,7 @@
 #include "UPCCodeScanner.h"
 #include "CodeNeunUndDreizig.h"
 
+//Diese Klasse wurde automatisch von Visual Studio generiert
 namespace AVPRGProjekt {
 
 	using namespace System;
@@ -44,6 +45,8 @@ namespace AVPRGProjekt {
 
 	private:
 		String^ path;
+
+		//Die Methode MarshalString stammt vom Microsoft Developer Network(MSDN)
 		void MarshalString ( String ^ s, std::string& os );
 		void onStart();
 		void onLoad();

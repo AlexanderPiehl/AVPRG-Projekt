@@ -64,14 +64,9 @@ int CodeNeunUndDreizig::decodingBarcode(cv::Mat image, int& start, int end, int 
 	{
 		int pixel = image.at<uchar>(y,start);
 
-		// Trennzeichen auslassen
-		//while (pixel == SPACE)
-		//{
-			//start++;
-		//}
 		// Auslesen des Codes bis zum zweiten Stern
 		if (pixel == 0)
-		foundCode = readNineElements(image, start, y, foundCode);
+			foundCode = readNineElements(image, start, y, foundCode);
 		start++;
 
 		// wenn bis kurz vor Ende des Bildes noch kein zweiter Stern gefunden wurde, abbrechen
@@ -80,6 +75,7 @@ int CodeNeunUndDreizig::decodingBarcode(cv::Mat image, int& start, int end, int 
 		// zweiter Stern wurde gefunden. Code fertig ausgelesen. Nun muss konvertiert werden
 		if (!foundCode)	
 		{
+			//Konvertierung der Bitwerte zu Strings
 			bool successConvert = true;
 			for(int i = 0; i < binaryNumbers.size(); i++)
 			{
@@ -91,7 +87,9 @@ int CodeNeunUndDreizig::decodingBarcode(cv::Mat image, int& start, int end, int 
 			}
 			else
 			{
+				//Konvertierung nicht erfolgreich, reset des Vectors
 				binaryNumbersSize = 0;
+				binaryNumbers.resize(binaryNumbersSize);
 				binaryNumbers.clear();
 				return -1;
 			}
@@ -111,8 +109,6 @@ bool CodeNeunUndDreizig::readNineElements(Mat image, int& start, int y, bool fou
 	{
 		while(code39Sign[i] == pixel)
 		{
-			//if (y == 44)
-				// cout << "Guard an der Stelle x: " << start << " y: " << y << endl;
 			// abfangen, dass er nicht über den Rand des Bildes prüft
 			if(start < image.cols-5)
 			{
@@ -128,9 +124,11 @@ bool CodeNeunUndDreizig::readNineElements(Mat image, int& start, int y, bool fou
 	}
 	int average = averageNumber(elementWidth);
 	int finalBiNum = binaryNumber(elementWidth, average);
+	//Vector erweitern, da Code39 keine feste Laenge hat
 	binaryNumbersSize++;
 	binaryNumbers.resize(binaryNumbersSize);
 	binaryNumbers.at(binaryNumbersSize-1) = finalBiNum;
+	//Prüfen,ob 2.ter * gefunden wuerden ist
 	if (10010100 == finalBiNum)
 		foundCode = !foundCode;
 	return foundCode;
@@ -162,8 +160,7 @@ int CodeNeunUndDreizig::binaryNumber(int* elementWidth, int average)
 	{
 		if(elementWidth[i] > average)
 			binaryNumber = binaryNumber + bitCounter;
-		bitCounter = bitCounter / 10;
-		
+		bitCounter = bitCounter / 10;		
 	}
 
 	if (0 < binaryNumber)
