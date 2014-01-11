@@ -42,12 +42,12 @@ void GUI::onStart()
 	}
 	else if(-2 == result)
 	{
-		MessageBox::Show("Es gab einen Fehler beim internen Laden der Bilddatei.","Warnung");
+		MessageBox::Show("Es gab einen Fehler beim internen Laden der Bilddatei.","Warnung",MessageBoxButtons::OK,MessageBoxIcon::Warning);
 		startButton->Enabled = false;
 	}
 	else if( 0 > result)
 	{
-		MessageBox::Show("Es konnte leider kein Barcode ermittelt werden.","Warnung");
+		MessageBox::Show("Es konnte leider kein Barcode ermittelt werden.","Warnung",MessageBoxButtons::OK,MessageBoxIcon::Warning);
 	}
 	delete scanner;
 }
@@ -79,7 +79,7 @@ void GUI::onLoad()
 				startButton->Enabled = false;
 				barcodeImage->Image = nullptr;
 				labelResult->Text = "";
-				MessageBox::Show("Das Bild konnte leider nicht geladen werden. Bitte wählen Sie ein anderes Bild aus.","Warnung");
+				MessageBox::Show("Das Bild konnte leider nicht geladen werden. Bitte wählen Sie ein anderes Bild aus.","Warnung",MessageBoxButtons::OK,MessageBoxIcon::Warning);
 			}
 		}
 	}
