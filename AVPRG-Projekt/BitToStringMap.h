@@ -20,7 +20,5 @@ public:
 	std::string convertBitToString(int key);
 
 	std::map<int,std::string> binToStringMap;
-	std::string path;
-
 };
 #endif
