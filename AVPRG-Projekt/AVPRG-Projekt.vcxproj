@@ -103,7 +103,6 @@
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="OpenCV_Tools.cpp" />
-    <ClCompile Include="UnitTestForMapConvert.cpp" />
     <ClCompile Include="UPCCodeScanner.cpp" />
   </ItemGroup>
   <ItemGroup>

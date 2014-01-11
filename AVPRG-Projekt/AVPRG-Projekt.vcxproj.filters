@@ -60,9 +60,6 @@
     <ClCompile Include="BitToStringMap.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="UnitTestForMapConvert.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI.resx">
