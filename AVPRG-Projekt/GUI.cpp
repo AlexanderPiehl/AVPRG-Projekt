@@ -71,6 +71,9 @@ void GUI::onLoad()
 			}
 			catch(System::Exception^ ex)
 			{
+				startButton->Enabled = false;
+				barcodeImage->Image = nullptr;
+				labelResult->Text = "";
 				MessageBox::Show("Das Bild konnte leider nicht geladen werden. Bitte wählen Sie ein anderes Bild aus.","Warnung");
 			}
 		}
