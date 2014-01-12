@@ -48,7 +48,7 @@ AVPRG-Projekt.suo
 # Build results
 
 [Dd]ebug/
-[Rr]elease/
+##[Rr]elease/
 x64/
 build/
 [Bb]in/
@@ -221,3 +221,24 @@ AVPRG-Projekt.sdf
 AVPRG-Projekt.sdf
 *.sdf
 AVPRG-Projekt.suo
+AVPRG-Projekt/Release/AVPRG-Projekt.exe.intermediate.manifest
+AVPRG-Projekt/Release/AVPRGProjekt.GUI.resources
+AVPRG-Projekt/Release/AVPRG-Projekt.lastbuildstate
+AVPRG-Projekt/Release/AVPRG-Projekt.write.1.tlog
+AVPRG-Projekt/Release/cl.command.1.tlog
+AVPRG-Projekt/Release/CL.read.1.tlog
+AVPRG-Projekt/Release/CL.write.1.tlog
+AVPRG-Projekt/Release/link.command.1.tlog
+AVPRG-Projekt/Release/link.read.1.tlog
+AVPRG-Projekt/Release/link.write.1.tlog
+AVPRG-Projekt/Release/metagen.read.1.tlog
+AVPRG-Projekt/Release/metagen.write.1.tlog
+AVPRG-Projekt/Release/mt.command.1.tlog
+AVPRG-Projekt/Release/mt.read.1.tlog
+AVPRG-Projekt/Release/mt.write.1.tlog
+AVPRG-Projekt/Release/NUNIT.FRAMEWORK.DLL.metagen
+AVPRG-Projekt/Release/RSAENH.DLL.bi
+AVPRG-Projekt/Release/TZRES.DLL.bi
+Release/AVPRG-Projekt.exe.metagen
+Release/nunit.framework.dll
+Release/nunit.framework.xml
